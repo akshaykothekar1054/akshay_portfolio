@@ -39,6 +39,11 @@
   to   { transform: translateX(-50%); }
 }
 
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+
 /* ── Base reset ────────────────────────────────────────────── */
 *,
 *::before,
@@ -50,7 +55,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 48px;
+  scroll-padding-top: 60px;
 }
 
 body {
@@ -59,6 +64,8 @@ body {
   font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
   overflow-x: hidden;
 }
 
@@ -69,9 +76,10 @@ body {
 }
 
 /* ── Scrollbar ─────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--surface); }
-::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 2px; }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.5); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-purple); }
 
 /* ══════════════════════════════════════════════════════════
    HERO ↔ ABOUT — split-screen scroll transition

@@ -10,7 +10,7 @@ const SERVICES = [
     desc: "Pixel-perfect, responsive UIs with React.js, Next.js, TailwindCSS and modern animation libraries.",
     logos: [
       { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",            alt: "React",    glow: "rgba(97,218,251,0.7)"  },
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",           alt: "Next.js",  glow: "rgba(255,255,255,0.5)" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",           alt: "Next.js",  glow: "rgba(0,0,0,0.3)"       },
       { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",             alt: "HTML5",    glow: "rgba(227,79,38,0.7)"   },
       { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",               alt: "CSS3",     glow: "rgba(21,114,182,0.7)"  },
       { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg", alt: "Tailwind", glow: "rgba(6,182,212,0.7)"   },
@@ -22,7 +22,7 @@ const SERVICES = [
     desc: "Scalable REST APIs and server-side systems built with Node.js, Express, PHP and Laravel.",
     logos: [
       { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",   alt: "Node.js", glow: "rgba(51,153,51,0.7)"    },
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg", alt: "Express", glow: "rgba(255,255,255,0.45)"  },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg", alt: "Express", glow: "rgba(0,0,0,0.3)"         },
       { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",         alt: "PHP",     glow: "rgba(119,123,180,0.7)"   },
       { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg", alt: "Laravel", glow: "rgba(255,45,32,0.7)"     },
     ],
@@ -75,7 +75,7 @@ export default function Skills() {
     <section
       id="skills"
       style={{
-        backgroundColor: "#0D0D0D",
+        backgroundColor: "#F5F5F5",
         padding: "clamp(48px, 8vh, 96px) 0",
       }}
     >
@@ -102,7 +102,7 @@ export default function Skills() {
           <h2 style={{
             fontFamily: '"Anton", sans-serif',
             fontSize: "clamp(3rem, 8vw, 7rem)",
-            color: "#fff",
+            color: "#000",
             lineHeight: 0.9,
             letterSpacing: "-0.01em",
           }}>
@@ -111,7 +111,7 @@ export default function Skills() {
         </motion.div>
 
         {/* Service rows */}
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+        <div style={{ borderTop: "1px solid rgba(0,0,0,0.12)" }}>
           {SERVICES.map((s, idx) => {
             const on = active === s.num;
             return (
@@ -130,8 +130,8 @@ export default function Skills() {
                   flexWrap: "wrap",
                   gap: "clamp(10px, 2vw, 28px)",
                   padding: "clamp(18px, 2.8vh, 28px) clamp(10px, 1.5vw, 20px) clamp(18px, 2.8vh, 28px) clamp(16px, 2vw, 24px)",
-                  borderBottom: "1px solid rgba(255,255,255,0.07)",
-                  background: on ? "rgba(139,92,246,0.045)" : "transparent",
+                  borderBottom: "1px solid rgba(0,0,0,0.12)",
+                  background: on ? "rgba(139,92,246,0.07)" : "transparent",
                   transition: "background 0.3s ease",
                   cursor: "default",
                   overflow: "hidden",
@@ -151,17 +151,15 @@ export default function Skills() {
                 />
 
                 {/* Number */}
-                <span
-                  style={{
-                    fontFamily: '"Anton", sans-serif',
-                    fontSize: "clamp(2.2rem, 4vw, 4.5rem)",
-                    lineHeight: 1,
-                    color: on ? "#8B5CF6" : "rgba(255,255,255,0.09)",
-                    transition: "color 0.3s ease",
-                    flexShrink: 0,
-                    minWidth: "clamp(52px, 7vw, 90px)",
-                  }}
-                >
+                <span style={{
+                  fontFamily: '"Anton", sans-serif',
+                  fontSize: "clamp(2.2rem, 4vw, 4.5rem)",
+                  lineHeight: 1,
+                  color: on ? "#8B5CF6" : "#ccc",
+                  transition: "color 0.3s ease",
+                  flexShrink: 0,
+                  minWidth: "clamp(52px, 7vw, 90px)",
+                }}>
                   {s.num}
                 </span>
 
@@ -170,7 +168,7 @@ export default function Skills() {
                   <p style={{
                     fontFamily: '"Anton", sans-serif',
                     fontSize: "clamp(1rem, 1.9vw, 1.75rem)",
-                    color: on ? "#ffffff" : "rgba(255,255,255,0.82)",
+                    color: on ? "#000" : "#1a1a1a",
                     letterSpacing: "0.04em",
                     lineHeight: 1.1,
                     transition: "color 0.3s ease",
@@ -181,9 +179,10 @@ export default function Skills() {
                   <p style={{
                     fontFamily: "Inter, sans-serif",
                     fontSize: "clamp(0.72rem, 1vw, 0.88rem)",
-                    color: "rgba(255,255,255,0.35)",
+                    color: on ? "#333" : "#666",
                     lineHeight: 1.65,
                     margin: "6px 0 0",
+                    transition: "color 0.3s ease",
                   }}>
                     {s.desc}
                   </p>
@@ -207,7 +206,7 @@ export default function Skills() {
                       draggable={false}
                       animate={{
                         scale:   on ? 1.12 : 0.82,
-                        opacity: on ? 1    : 0.22,
+                        opacity: on ? 1    : 0.28,
                       }}
                       transition={{
                         delay:    on ? li * 0.055 : 0,
@@ -217,9 +216,7 @@ export default function Skills() {
                       style={{
                         display: "block",
                         userSelect: "none",
-                        filter: on
-                          ? `drop-shadow(0 0 10px ${logo.glow})`
-                          : "none",
+                        filter: on ? `drop-shadow(0 0 10px ${logo.glow})` : "none",
                         transition: "filter 0.3s ease",
                       }}
                     />
@@ -228,7 +225,7 @@ export default function Skills() {
 
                 {/* Arrow indicator */}
                 <motion.span
-                  animate={{ x: on ? 0 : -10, opacity: on ? 0.55 : 0 }}
+                  animate={{ x: on ? 0 : -10, opacity: on ? 0.7 : 0 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
                   aria-hidden="true"
                   style={{
@@ -259,7 +256,7 @@ export default function Skills() {
             fontWeight: 300,
             textTransform: "uppercase",
             letterSpacing: "0.2em",
-            color: "rgba(255,255,255,0.18)",
+            color: "#888",
           }}
         >
           Always learning — currently exploring AI integrations &amp; edge deployment.

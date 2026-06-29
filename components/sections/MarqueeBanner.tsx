@@ -89,7 +89,7 @@ export default function MarqueeBanner() {
         overflow:        "hidden",
         padding:         "clamp(24px, 4.5vh, 52px) 0",
         borderTop:       "1px solid rgba(255,255,255,0.05)",
-        borderBottom:    "1px solid rgba(255,255,255,0.05)",
+        borderBottom:    "3px solid #F5F5F5",
       }}
     >
       {/*

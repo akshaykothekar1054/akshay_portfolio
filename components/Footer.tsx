@@ -1,122 +1,232 @@
-import { Mail } from "lucide-react";
+"use client";
+
+import { Mail, ArrowUpRight } from "lucide-react";
 import { LinkedInIcon, GitHubIcon } from "@/components/icons/SocialIcons";
 import { PERSON, NAV_LINKS } from "@/lib/constants";
 
-// ── Marquee content ────────────────────────────────────────────────────────
-// Duplicated so translateX(-50%) creates a seamless infinite loop:
-// when the first copy scrolls off-left, the second copy fills in.
 const TECH = [
-  "React.js", "Node.js", "MySQL", "PHP", "TailwindCSS", "REST APIs",
-  "PostgreSQL", "JavaScript", "TypeScript", "Next.js", "Laravel",
-  "Git", "Figma", "JWT Auth", "Multi-Tenancy", "SaaS", "Postman",
+  "React.js", "Node.js", "TypeScript", "MySQL", "PHP", "TailwindCSS",
+  "REST APIs", "PostgreSQL", "JavaScript", "Next.js", "JWT Auth",
+  "Multi-Tenancy", "SaaS", "Figma", "Git", "Postman",
 ];
-const MARQUEE = [...TECH, ...TECH];
+const MARQUEE_ITEMS = [...TECH, ...TECH];
 
-// ── Footer ─────────────────────────────────────────────────────────────────
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-black">
+    <footer style={{ backgroundColor: "#000", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
 
-      {/* ── Main content row ── */}
-      <div className="mx-auto max-w-6xl px-6 lg:px-10 pt-16 pb-10">
-        <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
-
-          {/* Brand — two-line Anton stacked name */}
-          <div className="flex-none">
-            <p
-              className="font-display leading-[0.82] text-white tracking-tight"
-              style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)" }}
-            >
-              AKSHAY
-            </p>
-            <p
-              className="font-display leading-[0.82] text-white tracking-tight"
-              style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)" }}
-            >
+      {/* ── Big name hero ── */}
+      <div style={{ padding: "clamp(56px, 8vh, 96px) clamp(24px, 6vw, 80px) 0" }}>
+        <div style={{
+          maxWidth: 1280,
+          margin: "0 auto",
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+          gap: "clamp(24px, 4vw, 40px)",
+        }}>
+          {/* Giant stacked name — solid + outline */}
+          <p style={{
+            fontFamily: '"Anton", sans-serif',
+            fontSize: "clamp(3.5rem, 11vw, 10rem)",
+            lineHeight: 0.88,
+            letterSpacing: "-0.02em",
+            margin: 0,
+            userSelect: "none",
+          }}>
+            <span style={{ color: "#fff", display: "block" }}>AKSHAY</span>
+            <span style={{
+              display: "block",
+              WebkitTextStroke: "1.5px rgba(255,255,255,0.18)",
+              color: "transparent",
+            }}>
               KOTHEKAR
-            </p>
-            <p className="mt-3 text-[10px] uppercase tracking-[0.22em] text-white/25">
-              Full Stack Developer
-            </p>
-          </div>
+            </span>
+          </p>
 
-          {/* Social icon cluster */}
-          <div className="flex items-center gap-3">
+          {/* Right: available badge + email */}
+          <div style={{
+            paddingBottom: "clamp(8px, 1.5vh, 20px)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end",
+            gap: "clamp(14px, 2vh, 20px)",
+          }}>
+            <span style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 7,
+              padding: "5px 14px",
+              borderRadius: 100,
+              border: "1px solid rgba(139, 92, 246, 0.35)",
+              backgroundColor: "rgba(139, 92, 246, 0.07)",
+              fontSize: 10,
+              letterSpacing: "0.2em",
+              color: "#8B5CF6",
+              fontFamily: "Inter, sans-serif",
+              fontWeight: 500,
+              textTransform: "uppercase",
+            }}>
+              <span style={{
+                width: 5,
+                height: 5,
+                borderRadius: "50%",
+                backgroundColor: "#8B5CF6",
+                animation: "pulse-dot 2s ease-in-out infinite",
+                flexShrink: 0,
+              }} />
+              Available for work
+            </span>
+
             <a
               href={`mailto:${PERSON.email}`}
-              aria-label="Send email"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.08] text-white/35 transition-all hover:border-[#8B5CF6] hover:text-[#8B5CF6]"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 7,
+                fontFamily: "Inter, sans-serif",
+                fontSize: "clamp(0.8rem, 0.95vw, 0.95rem)",
+                color: "rgba(255,255,255,0.38)",
+                textDecoration: "none",
+                letterSpacing: "0.01em",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.8)")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.38)")}
             >
-              <Mail size={15} />
-            </a>
-            <a
-              href={PERSON.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn profile"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.08] text-white/35 transition-all hover:border-[#8B5CF6] hover:text-[#8B5CF6]"
-            >
-              <LinkedInIcon size={15} />
-            </a>
-            <a
-              href={PERSON.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub profile"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.08] text-white/35 transition-all hover:border-[#8B5CF6] hover:text-[#8B5CF6]"
-            >
-              <GitHubIcon size={15} />
+              <Mail size={13} strokeWidth={1.75} />
+              {PERSON.email}
+              <ArrowUpRight size={12} strokeWidth={1.75} style={{ opacity: 0.5 }} />
             </a>
           </div>
-
-          {/* Navigation */}
-          <nav
-            aria-label="Footer navigation"
-            className="flex flex-wrap gap-x-7 gap-y-2.5"
-          >
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-[11px] uppercase tracking-[0.18em] text-white/35 transition-colors hover:text-white"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
         </div>
       </div>
 
-      {/* ── Scrolling tech marquee ── */}
-      {/*
-        Container: overflow-hidden clips the scrolling content.
-        Inner div has double the items; animate-marquee shifts it -50%
-        (= exactly one copy's width), which loops seamlessly.
-      */}
-      <div className="border-t border-b border-white/[0.05] overflow-hidden py-4">
-        <div className="flex whitespace-nowrap animate-marquee">
-          {MARQUEE.map((tech, i) => (
-            <span
-              key={i}
-              className="inline-flex items-center text-[11px] uppercase tracking-[0.2em] text-white/18"
+      {/* ── Thin divider ── */}
+      <div style={{ maxWidth: 1280, margin: "clamp(28px, 4vh, 44px) auto 0", padding: "0 clamp(24px, 6vw, 80px)" }}>
+        <div style={{ height: 1, backgroundColor: "rgba(255,255,255,0.06)" }} />
+      </div>
+
+      {/* ── Bottom strip: copyright · nav · socials ── */}
+      <div style={{
+        maxWidth: 1280,
+        margin: "0 auto",
+        padding: "clamp(20px, 3vh, 30px) clamp(24px, 6vw, 80px)",
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        alignItems: "center",
+        gap: "clamp(14px, 2vw, 24px)",
+      }}>
+        {/* Copyright */}
+        <p style={{
+          fontSize: 11,
+          color: "rgba(255,255,255,0.2)",
+          fontFamily: "Inter, sans-serif",
+          letterSpacing: "0.04em",
+          margin: 0,
+        }}>
+          © {year} Akshay Kothekar · Built with Next.js
+        </p>
+
+        {/* Nav links */}
+        <nav aria-label="Footer navigation">
+          <ul style={{ display: "flex", flexWrap: "wrap", gap: "clamp(16px, 2.2vw, 28px)", listStyle: "none", margin: 0, padding: 0 }}>
+            {NAV_LINKS.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  style={{
+                    fontSize: 11,
+                    letterSpacing: "0.16em",
+                    textTransform: "uppercase",
+                    color: "rgba(255,255,255,0.25)",
+                    textDecoration: "none",
+                    fontFamily: "Inter, sans-serif",
+                    fontWeight: 500,
+                    transition: "color 0.2s",
+                  }}
+                  onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#fff")}
+                  onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.25)")}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Social icons */}
+        <div style={{ display: "flex", gap: 8 }}>
+          {([
+            { href: `mailto:${PERSON.email}`, icon: <Mail size={14} strokeWidth={1.75} />, label: "Email" },
+            { href: PERSON.linkedin, icon: <LinkedInIcon size={14} />, label: "LinkedIn" },
+            { href: PERSON.github, icon: <GitHubIcon size={14} />, label: "GitHub" },
+          ] as const).map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              aria-label={s.label}
+              target={s.href.startsWith("http") ? "_blank" : undefined}
+              rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 34,
+                height: 34,
+                borderRadius: "50%",
+                border: "1px solid rgba(255,255,255,0.09)",
+                color: "rgba(255,255,255,0.3)",
+                textDecoration: "none",
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.borderColor = "rgba(139, 92, 246, 0.55)";
+                el.style.color = "#8B5CF6";
+                el.style.backgroundColor = "rgba(139, 92, 246, 0.07)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.borderColor = "rgba(255,255,255,0.09)";
+                el.style.color = "rgba(255,255,255,0.3)";
+                el.style.backgroundColor = "transparent";
+              }}
             >
-              {tech}
-              <span className="mx-5 text-[#8B5CF6]/25">·</span>
-            </span>
+              {s.icon}
+            </a>
           ))}
         </div>
       </div>
 
-      {/* ── Bottom copyright strip ── */}
-      <div className="mx-auto max-w-6xl px-6 lg:px-10 py-5 flex flex-col items-center justify-between gap-1.5 sm:flex-row">
-        <p className="text-[11px] text-white/20">
-          © {year} Akshay Kothekar · Built with Next.js
-        </p>
-        <p className="text-[10px] text-white/10">
-          Amravati, Maharashtra, India
-        </p>
+      {/* ── Tech marquee strip ── */}
+      <div style={{ borderTop: "1px solid rgba(255,255,255,0.04)", overflow: "hidden", padding: "13px 0" }}>
+        <div
+          className="animate-marquee"
+          style={{ display: "flex", whiteSpace: "nowrap" }}
+        >
+          {MARQUEE_ITEMS.map((tech, i) => (
+            <span
+              key={i}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                fontSize: 10,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.12)",
+                fontFamily: "Inter, sans-serif",
+              }}
+            >
+              {tech}
+              <span style={{ margin: "0 clamp(14px, 1.8vw, 22px)", color: "rgba(139, 92, 246, 0.25)" }}>·</span>
+            </span>
+          ))}
+        </div>
       </div>
 
     </footer>

@@ -1,9 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
 
-// ── Placeholder data ───────────────────────────────────────────────────────
-// Replace with real client feedback before going live.
 const TESTIMONIALS = [
   {
     id: 1,
@@ -55,113 +53,241 @@ const TESTIMONIALS = [
   },
 ] as const;
 
-// ── Component ──────────────────────────────────────────────────────────────
 export default function Testimonials() {
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  const pause  = () => { if (trackRef.current) trackRef.current.style.animationPlayState = "paused";  };
+  const resume = () => { if (trackRef.current) trackRef.current.style.animationPlayState = "running"; };
+
   return (
-    <section id="testimonials" className="bg-[#111111] py-28 lg:py-36">
-      <div className="mx-auto max-w-6xl px-6 lg:px-10">
-
-        {/* ── Header ── */}
-        <div className="mb-16 lg:mb-20 text-center">
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mb-4 font-mono text-[10px] uppercase tracking-[0.35em] text-[#F59E0B]"
+    <section
+      id="testimonials"
+      style={{
+        backgroundColor: "#fff",
+        padding: "clamp(52px, 7vh, 100px) 0",
+        overflow: "hidden",
+      }}
+    >
+      {/* ── Header ── */}
+      <div
+        style={{
+          textAlign: "center",
+          padding: "0 clamp(16px, 5vw, 52px)",
+          maxWidth: 1200,
+          margin: "0 auto clamp(50px, 7vh, 80px) auto",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "clamp(12px, 2vw, 16px)",
+            marginBottom: "clamp(16px, 2vh, 24px)",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "Inter, sans-serif",
+              fontSize: "clamp(10px, 0.8vw, 12px)",
+              letterSpacing: "0.35em",
+              textTransform: "uppercase",
+              color: "#8B5CF6",
+              fontWeight: 600,
+            }}
           >
-            Testimonials
-          </motion.p>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 26 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.08, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display leading-none text-white"
-            style={{ fontSize: "clamp(2.8rem, 7vw, 5.5rem)" }}
-          >
-            KIND WORDS
-          </motion.h2>
+            TESTIMONIALS
+          </span>
         </div>
 
-        {/* ── 3-column card grid ── */}
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {TESTIMONIALS.map((t, i) => (
-            <motion.div
-              key={t.id}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{
-                delay: i * 0.08,
-                duration: 0.55,
-                ease: [0.22, 1, 0.36, 1],
+        <h2
+          style={{
+            fontFamily: '"Anton", sans-serif',
+            fontSize: "clamp(2.5rem, 6vw, 5.5rem)",
+            color: "#000",
+            lineHeight: 1,
+            margin: 0,
+          }}
+        >
+          WHAT CLIENTS ARE SAYING
+        </h2>
+      </div>
+
+      {/* ── Full-screen Marquee Container ── */}
+      <div
+        style={{
+          width: "100%",
+          overflow: "hidden",
+          padding: "clamp(16px, 2vh, 32px) 0",
+        }}
+        onMouseEnter={pause}
+        onMouseLeave={resume}
+      >
+        <div
+          ref={trackRef}
+          style={{
+            display: "flex",
+            gap: "clamp(16px, 2vw, 24px)",
+            alignItems: "flex-start",
+            whiteSpace: "nowrap",
+            width: "max-content",
+            willChange: "transform",
+            animation: "testimonials-marquee 30s linear infinite",
+            padding: "clamp(16px, 2vh, 24px) clamp(16px, 5vw, 52px)",
+          }}
+        >
+          <style>{`
+            @keyframes testimonials-marquee {
+              0%   { transform: translateX(0); }
+              100% { transform: translateX(-50%); }
+            }
+          `}</style>
+
+          {[0, 1].map((copy) => (
+            <span
+              key={copy}
+              style={{
+                display: "inline-flex",
+                gap: "clamp(16px, 2vw, 24px)",
+                alignItems: "flex-start",
               }}
-              className="group relative flex flex-col rounded-2xl bg-black border border-[#222222] overflow-hidden transition-all duration-300 hover:border-[#F59E0B]/30"
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.boxShadow =
-                  "0 8px 40px rgba(245,158,11,0.12)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.boxShadow = "none")
-              }
             >
-              {/* Golden accent strip */}
-              <div
-                className="h-[3px] w-full flex-none"
-                style={{
-                  background:
-                    "linear-gradient(to right, #F59E0B, #FBBF24, #F59E0B)",
-                }}
-                aria-hidden="true"
-              />
-
-              {/* Card content */}
-              <div className="flex flex-1 flex-col p-6">
-
-                {/* Opening quote mark */}
-                <span
-                  className="mb-4 block font-display leading-none text-[#F59E0B]/25 select-none"
-                  style={{ fontSize: "4rem", lineHeight: 1 }}
-                  aria-hidden="true"
+              {TESTIMONIALS.map((t) => (
+                <div
+                  key={`${copy}-${t.id}`}
+                  style={{
+                    flex: "0 0 clamp(280px, 22vw, 320px)",
+                    minWidth: "clamp(280px, 22vw, 320px)",
+                    backgroundColor: "#fafafa",
+                    border: "1px solid rgba(0,0,0,0.08)",
+                    borderRadius: "clamp(12px, 1.2vw, 16px)",
+                    padding: "clamp(18px, 2.2vw, 24px)",
+                    display: "flex",
+                    flexDirection: "column",
+                    transition: "all 0.3s ease",
+                    cursor: "default",
+                    overflow: "hidden",
+                    boxSizing: "border-box",
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLDivElement;
+                    el.style.borderColor = "rgba(139, 92, 246, 0.5)";
+                    el.style.boxShadow = "0 16px 48px rgba(139, 92, 246, 0.14)";
+                    el.style.transform = "translateY(-6px) scale(1.015)";
+                    el.style.backgroundColor = "#fff";
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLDivElement;
+                    el.style.borderColor = "rgba(0,0,0,0.1)";
+                    el.style.boxShadow = "none";
+                    el.style.transform = "translateY(0) scale(1)";
+                    el.style.backgroundColor = "#fafafa";
+                  }}
                 >
-                  "
-                </span>
+                  {/* Quote mark */}
+                  <span style={{
+                    fontFamily: '"Anton", sans-serif',
+                    fontSize: "2.5rem",
+                    lineHeight: 1,
+                    color: "#8B5CF6",
+                    opacity: 0.3,
+                    display: "block",
+                    marginBottom: 4,
+                    userSelect: "none",
+                  }}>
+                    "
+                  </span>
 
-                {/* Quote */}
-                <p className="flex-1 text-sm italic leading-relaxed text-white/60 mb-6">
-                  {t.quote}
-                </p>
+                  {/* Quote */}
+                  <p
+                    style={{
+                      fontFamily: "Inter, sans-serif",
+                      fontSize: "clamp(0.8rem, 0.85vw, 0.9rem)",
+                      color: "rgba(0,0,0,0.6)",
+                      lineHeight: 1.65,
+                      marginBottom: "clamp(12px, 1.5vh, 16px)",
+                      flex: 1,
+                      margin: 0,
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    {t.quote}
+                  </p>
 
-                {/* Author row */}
-                <div className="flex items-center gap-3 border-t border-white/[0.06] pt-5">
-                  {/* Initials avatar */}
-                  <div className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-[#F59E0B]/10 text-[11px] font-bold tracking-wide text-[#F59E0B] border border-[#F59E0B]/20">
-                    {t.initials}
-                  </div>
+                  {/* Divider */}
+                  <div
+                    style={{
+                      height: "1px",
+                      background: "rgba(0,0,0,0.07)",
+                      margin: "clamp(12px, 1.5vh, 16px) 0",
+                    }}
+                  />
 
-                  <div>
-                    <p className="text-sm font-medium text-white">{t.name}</p>
-                    <p className="mt-0.5 text-[11px] text-white/35">{t.role}</p>
+                  {/* Author */}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "clamp(10px, 1.2vw, 12px)",
+                    }}
+                  >
+                    {/* Avatar */}
+                    <div
+                      style={{
+                        flex: "0 0 auto",
+                        width: "38px",
+                        height: "38px",
+                        borderRadius: "50%",
+                        background: "linear-gradient(135deg, #8B5CF6, #6d28d9)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "10px",
+                        fontWeight: 600,
+                        color: "#fff",
+                        fontFamily: "Inter, sans-serif",
+                      }}
+                    >
+                      {t.initials}
+                    </div>
+
+                    {/* Info */}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p
+                        style={{
+                          fontFamily: "Inter, sans-serif",
+                          fontSize: "clamp(10px, 0.85vw, 12px)",
+                          color: "#111",
+                          fontWeight: 600,
+                          margin: 0,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {t.name}
+                      </p>
+                      <p
+                        style={{
+                          fontFamily: "Inter, sans-serif",
+                          fontSize: "clamp(8px, 0.7vw, 10px)",
+                          color: "rgba(0,0,0,0.38)",
+                          margin: "2px 0 0 0",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {t.role}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
+              ))}
+            </span>
           ))}
         </div>
-
-        {/* ── Placeholder disclaimer ── */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="mt-12 text-center text-[11px] text-white/20 tracking-[0.15em]"
-        >
-          — Testimonials will be updated with real client feedback
-        </motion.p>
-
       </div>
     </section>
   );
