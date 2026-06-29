@@ -413,10 +413,10 @@ export default function HeroAboutTransition() {
         {/* ── Mobile About ── */}
         <section id="about" style={{
           backgroundColor: "#000",
-          minHeight: "100svh",
+          /* auto height — no forced 100svh gap */
           display: "flex", flexDirection: "column",
-          alignItems: "center", justifyContent: "center",
-          padding: "48px 20px 40px",
+          alignItems: "center", justifyContent: "flex-start",
+          padding: "72px 16px 56px",
           textAlign: "center",
           position: "relative", overflow: "hidden",
         }}>
@@ -431,50 +431,50 @@ export default function HeroAboutTransition() {
             }} />
           </div>
 
-          {/* Mobile tech logos — small, interactive, corner-pinned */}
+          {/* Mobile tech logos — fixed pixel positions, no percentage */}
           <TechLogo
             src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
-            alt="React" size={38} glowColor="rgba(97,218,251,0.55)"
+            alt="React" size={36} glowColor="rgba(97,218,251,0.55)"
             delay={0} spin className=""
-            style={{ top: "7%", left: "4%" }}
+            style={{ top: 16, left: "4%" }}
           />
           <TechLogo
             src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
-            alt="Node.js" size={38} glowColor="rgba(51,153,51,0.55)"
+            alt="Node.js" size={36} glowColor="rgba(51,153,51,0.55)"
             delay={0.8} className=""
-            style={{ top: "5%", right: "5%" }}
+            style={{ top: 16, right: "4%" }}
           />
           <TechLogo
             src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
-            alt="CSS3" size={34} glowColor="rgba(21,114,182,0.55)"
+            alt="CSS3" size={32} glowColor="rgba(21,114,182,0.55)"
             delay={1.4} className=""
-            style={{ top: "44%", right: "3%" }}
+            style={{ bottom: 16, right: "4%" }}
           />
           <TechLogo
             src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
-            alt="HTML5" size={34} glowColor="rgba(227,79,38,0.55)"
+            alt="HTML5" size={32} glowColor="rgba(227,79,38,0.55)"
             delay={2} className=""
-            style={{ bottom: "22%", left: "4%" }}
+            style={{ bottom: 16, left: "4%" }}
           />
 
           <h2 style={{
             position: "relative", zIndex: 1,
             fontFamily: '"Anton", sans-serif',
-            fontSize: "clamp(2.5rem, 11.5vw, 3.6rem)",
+            fontSize: "clamp(2.2rem, 10vw, 3rem)",
             color: "#fff", lineHeight: 0.9,
-            letterSpacing: "-0.02em", marginBottom: 14,
+            letterSpacing: "-0.02em", marginBottom: 16,
           }}>
             ABOUT ME
           </h2>
 
           <p style={{
             position: "relative", zIndex: 1,
-            maxWidth: "86vw",
-            color: "rgba(255,255,255,0.85)",
+            maxWidth: "84vw",
+            color: "rgba(255,255,255,0.82)",
             fontFamily: "Inter, sans-serif",
-            fontSize: "clamp(13px, 3.3vw, 15px)",
-            lineHeight: 1.85,
-            marginBottom: 26,
+            fontSize: "clamp(12px, 3vw, 14px)",
+            lineHeight: 1.8,
+            marginBottom: 28,
           }}>
             {ABOUT_BIO}
           </p>

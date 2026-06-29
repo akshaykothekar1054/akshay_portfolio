@@ -9,11 +9,11 @@ const SERVICES = [
     title: "FRONTEND DEVELOPMENT",
     desc: "Pixel-perfect, responsive UIs with React.js, Next.js, TailwindCSS and modern animation libraries.",
     logos: [
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",           alt: "React",    glow: "rgba(97,218,251,0.7)"  },
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",          alt: "Next.js",  glow: "rgba(255,255,255,0.5)" },
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",            alt: "HTML5",    glow: "rgba(227,79,38,0.7)"   },
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",              alt: "CSS3",     glow: "rgba(21,114,182,0.7)"  },
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg",alt: "Tailwind", glow: "rgba(6,182,212,0.7)"   },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",            alt: "React",    glow: "rgba(97,218,251,0.7)"  },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",           alt: "Next.js",  glow: "rgba(255,255,255,0.5)" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",             alt: "HTML5",    glow: "rgba(227,79,38,0.7)"   },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",               alt: "CSS3",     glow: "rgba(21,114,182,0.7)"  },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg", alt: "Tailwind", glow: "rgba(6,182,212,0.7)"   },
     ],
   },
   {
@@ -41,9 +41,9 @@ const SERVICES = [
     title: "SYSTEM ARCHITECTURE",
     desc: "Multi-tenant SaaS design, modular component systems and scalable API patterns.",
     logos: [
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg", alt: "Docker",     glow: "rgba(13,183,237,0.7)"  },
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",       alt: "Git",        glow: "rgba(240,80,50,0.7)"   },
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg",   alt: "Linux",      glow: "rgba(255,210,0,0.6)"   },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg", alt: "Docker", glow: "rgba(13,183,237,0.7)"  },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",       alt: "Git",    glow: "rgba(240,80,50,0.7)"   },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg",   alt: "Linux",  glow: "rgba(255,210,0,0.6)"   },
     ],
   },
   {
@@ -51,9 +51,9 @@ const SERVICES = [
     title: "TOOLS & WORKFLOW",
     desc: "Agile / Scrum workflows using Git, Postman, Figma, Jira and cPanel.",
     logos: [
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",    alt: "Git",     glow: "rgba(240,80,50,0.7)"   },
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg", alt: "Figma",   glow: "rgba(162,89,255,0.7)"  },
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg",   alt: "Jira",    glow: "rgba(38,132,255,0.7)"  },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",    alt: "Git",   glow: "rgba(240,80,50,0.7)"  },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg", alt: "Figma", glow: "rgba(162,89,255,0.7)" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg",   alt: "Jira",  glow: "rgba(38,132,255,0.7)" },
     ],
   },
   {
@@ -61,9 +61,9 @@ const SERVICES = [
     title: "API INTEGRATION",
     desc: "Third-party API integration, real-time systems, ImageKit CDN and JSON data pipelines.",
     logos: [
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", alt: "JavaScript", glow: "rgba(247,223,30,0.7)"  },
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg",        alt: "Postman",    glow: "rgba(255,108,55,0.7)"  },
-      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",          alt: "Node.js",    glow: "rgba(51,153,51,0.6)"   },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", alt: "JavaScript", glow: "rgba(247,223,30,0.7)" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg",        alt: "Postman",    glow: "rgba(255,108,55,0.7)" },
+      { src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",          alt: "Node.js",    glow: "rgba(51,153,51,0.6)"  },
     ],
   },
 ] as const;
@@ -81,7 +81,7 @@ export default function Skills() {
     >
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(16px, 5vw, 48px)" }}>
 
-        {/* ── Header ── */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -110,7 +110,7 @@ export default function Skills() {
           </h2>
         </motion.div>
 
-        {/* ── Service rows ── */}
+        {/* Service rows */}
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
           {SERVICES.map((s, idx) => {
             const on = active === s.num;
@@ -182,7 +182,6 @@ export default function Skills() {
                     fontFamily: "Inter, sans-serif",
                     fontSize: "clamp(0.72rem, 1vw, 0.88rem)",
                     color: "rgba(255,255,255,0.35)",
-                    marginTop: 6,
                     lineHeight: 1.65,
                     margin: "6px 0 0",
                   }}>
@@ -240,7 +239,7 @@ export default function Skills() {
                     lineHeight: 1,
                   }}
                 >
-                  →
+                  &rarr;
                 </motion.span>
               </motion.div>
             );
