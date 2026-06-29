@@ -69,20 +69,24 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 2px; }
 
 /* ══════════════════════════════════════════════════════════
-   HERO — avatar overlap & CTA visibility
-   Single layout renders on all screens.
-   Only the negative margin and CTA position differ.
+   HERO ↔ ABOUT — split-screen scroll transition
+   Desktop: 300vh sticky GSAP split
+   Mobile:  normal stacked sections
 ══════════════════════════════════════════════════════════ */
 
-/* Desktop default: larger overlap, hide inline CTA */
-.hero-avatar-wrapper { margin-top: -80px; }
-.hero-cta-mobile     { display: none; }
+/* Desktop: show split layout, hide stacked */
+.desktop-split-view { display: block; }
+.mobile-stack-view  { display: none; }
 
-/* Mobile: smaller overlap, show inline CTA, hide absolute CTA */
+/* Mobile: hide split layout, show stacked sections */
 @media (max-width: 768px) {
-  .hero-avatar-wrapper { margin-top: -22px; }
-  .hero-cta-mobile     { display: block; }
-  .hero-cta-desktop    { display: none !important; }
+  .desktop-split-view { display: none; }
+  .mobile-stack-view  { display: block; }
+}
+
+/* ── About tech logo decorators: hide on mobile ─────────── */
+@media (max-width: 768px) {
+  .about-logo-decorator { display: none !important; }
 }
 
 /* ══════════════════════════════════════════════════════════
