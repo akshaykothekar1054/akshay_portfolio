@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HeroAboutTransition from "@/components/sections/HeroAboutTransition";
+import MarqueeBanner from "@/components/sections/MarqueeBanner";
 import Skills from "@/components/sections/Skills";
 import Projects from "@/components/sections/Projects";
 import Testimonials from "@/components/sections/Testimonials";
@@ -12,6 +13,7 @@ export default function Home() {
       <Navbar />
       <main>
         <HeroAboutTransition />
+        <MarqueeBanner />
         <Skills />
         <Projects />
         <Testimonials />
