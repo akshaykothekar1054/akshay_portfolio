@@ -43,13 +43,10 @@ export default function Contact() {
       />
 
       <div
+        className="contact-grid"
         style={{
           maxWidth: 1200,
           margin: "0 auto",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "clamp(40px, 8vw, 80px)",
-          alignItems: "center",
           position: "relative",
           zIndex: 1,
         }}
@@ -252,6 +249,7 @@ export default function Contact() {
             type="submit"
             style={{
               marginTop: "clamp(8px, 1.5vh, 16px)",
+              width: "100%",
               padding: "clamp(12px, 1.5vh, 16px) clamp(24px, 3vw, 32px)",
               backgroundColor: "#8B5CF6",
               border: "1.5px solid #8B5CF6",

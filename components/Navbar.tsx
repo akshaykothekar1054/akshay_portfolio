@@ -1,10 +1,11 @@
 "use client";
 
 const LINKS = [
-  { label: "ABOUT",      href: "#about"        },
-  { label: "PROJECTS",   href: "#projects"      },
-  { label: "SKILLS",     href: "#skills"        },
-  { label: "CONTACT",    href: "#contact"       },
+  { label: "ABOUT",    href: "/#about"    },
+  { label: "PROJECTS", href: "/#projects" },
+  { label: "SKILLS",   href: "/#skills"   },
+  { label: "JOURNEY",  href: "/journey"   },
+  { label: "CONTACT",  href: "/#contact"  },
 ];
 
 export default function Navbar() {
@@ -13,9 +14,7 @@ export default function Navbar() {
       aria-label="Main navigation"
       style={{
         position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
+        top: 0, left: 0, right: 0,
         zIndex: 50,
         backdropFilter: "blur(18px)",
         WebkitBackdropFilter: "blur(18px)",
@@ -29,7 +28,7 @@ export default function Navbar() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          gap: "clamp(20px, 4vw, 52px)",
+          gap: "clamp(16px, 3.5vw, 48px)",
           listStyle: "none",
           margin: 0,
           padding: "14px clamp(16px, 4vw, 48px)",
@@ -41,18 +40,19 @@ export default function Navbar() {
               href={link.href}
               className="nav-link"
               style={{
-                color: "rgba(255,255,255,0.5)",
+                color: link.label === "JOURNEY" ? "#8B5CF6" : "rgba(255,255,255,0.5)",
                 fontSize: "11px",
                 letterSpacing: "0.22em",
                 fontFamily: "Inter, sans-serif",
-                fontWeight: 500,
+                fontWeight: link.label === "JOURNEY" ? 600 : 500,
                 textDecoration: "none",
                 textTransform: "uppercase",
                 transition: "color 0.2s ease",
                 padding: "4px 0",
               }}
               onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#fff")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.5)")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color =
+                link.label === "JOURNEY" ? "#8B5CF6" : "rgba(255,255,255,0.5)")}
             >
               {link.label}
             </a>

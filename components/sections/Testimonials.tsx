@@ -203,9 +203,9 @@ export default function Testimonials() {
                     style={{
                       fontFamily: "Inter, sans-serif",
                       fontSize: "clamp(0.8rem, 0.85vw, 0.9rem)",
-                      color: "rgba(0,0,0,0.6)",
-                      lineHeight: 1.65,
-                      marginBottom: "clamp(12px, 1.5vh, 16px)",
+                      color: "#333",
+                      lineHeight: 1.7,
+                      fontWeight: 400,
                       flex: 1,
                       margin: 0,
                       whiteSpace: "normal",
@@ -219,7 +219,7 @@ export default function Testimonials() {
                   <div
                     style={{
                       height: "1px",
-                      background: "rgba(0,0,0,0.07)",
+                      background: "rgba(0,0,0,0.1)",
                       margin: "clamp(12px, 1.5vh, 16px) 0",
                     }}
                   />
@@ -258,7 +258,7 @@ export default function Testimonials() {
                         style={{
                           fontFamily: "Inter, sans-serif",
                           fontSize: "clamp(10px, 0.85vw, 12px)",
-                          color: "#111",
+                          color: "#000",
                           fontWeight: 600,
                           margin: 0,
                           overflow: "hidden",
@@ -272,7 +272,7 @@ export default function Testimonials() {
                         style={{
                           fontFamily: "Inter, sans-serif",
                           fontSize: "clamp(8px, 0.7vw, 10px)",
-                          color: "rgba(0,0,0,0.38)",
+                          color: "#777",
                           margin: "2px 0 0 0",
                           overflow: "hidden",
                           textOverflow: "ellipsis",

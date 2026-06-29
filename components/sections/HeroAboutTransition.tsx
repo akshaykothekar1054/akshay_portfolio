@@ -5,18 +5,21 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-/* ── Copy ──────────────────────────────────────────────────────── */
+/* ── Copy ─────────────────────────────────────────────────────── */
 const HERO_BIO =
   "I'm Akshay Kothekar, a Full Stack Software Engineer with over 3 years of experience " +
   "building production-ready web applications and digital products. I enjoy turning complex " +
   "ideas into intuitive, reliable, and scalable solutions that solve real-world problems.";
 
-const ABOUT_BIO =
-  "With 3+ years of experience in full stack development, I specialize in React.js, " +
-  "Node.js, and scalable backend systems. I love collaborating on products that solve " +
-  "real problems and showcase clean engineering. Let's build something great together!";
+const ABOUT_BIO = [
+  "I'm a Full Stack Developer with 3+ years of experience building scalable, production-ready web applications using React.js, Node.js, TypeScript, and modern web technologies. I enjoy turning complex ideas into intuitive, high-performance digital products that combine clean architecture with exceptional user experiences.",
 
-/* ── Gradient-border CTA ───────────────────────────────────────── */
+  "My passion lies in building end-to-end solutions—from responsive frontend interfaces and secure backend APIs to database design and cloud deployment. I believe great software is built through thoughtful engineering, attention to detail, and a deep understanding of user needs.",
+
+  "I'm continuously exploring AI-powered applications, SaaS architecture, cloud technologies, and modern development workflows to create reliable, scalable, and future-ready products. I'm always excited to collaborate on meaningful projects, solve challenging problems, and build technology that makes a real impact.",
+];
+
+/* ── Gradient-border CTA (hero panel) ─────────────────────────── */
 function ContactBtn() {
   const OUTLINE =
     "linear-gradient(#000,#000) padding-box, linear-gradient(to right,#8B5CF6,#EC4899) border-box";
@@ -24,7 +27,7 @@ function ContactBtn() {
     "linear-gradient(to right,#8B5CF6,#EC4899) padding-box, linear-gradient(to right,#8B5CF6,#EC4899) border-box";
   return (
     <a
-      href="#contact"
+      href="/#contact"
       style={{
         display: "inline-block",
         padding: "13px 32px",
@@ -46,6 +49,84 @@ function ContactBtn() {
     >
       CONTACT ME
     </a>
+  );
+}
+
+/* ── My Journey CTA (about panel) ─────────────────────────────── */
+function JourneyBtn() {
+  return (
+    <a
+      href="/journey"
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "13px 32px",
+        borderRadius: 999,
+        background: "linear-gradient(to right, #8B5CF6, #EC4899)",
+        color: "#fff",
+        fontSize: 13,
+        fontFamily: "Inter, sans-serif",
+        letterSpacing: "0.15em",
+        textTransform: "uppercase",
+        textDecoration: "none",
+        whiteSpace: "nowrap" as const,
+        cursor: "pointer",
+        transition: "opacity 0.25s ease, transform 0.25s ease",
+        fontWeight: 500,
+      }}
+      onMouseEnter={(e) => {
+        const el = e.currentTarget as HTMLAnchorElement;
+        el.style.opacity = "0.88";
+        el.style.transform = "translateY(-2px)";
+      }}
+      onMouseLeave={(e) => {
+        const el = e.currentTarget as HTMLAnchorElement;
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0)";
+      }}
+    >
+      MY JOURNEY
+      <span aria-hidden="true" style={{ fontSize: 16, lineHeight: 1 }}>→</span>
+    </a>
+  );
+}
+
+/* ── Per-letter animated & hoverable name ─────────────────────── */
+function AnimatedName({ text, baseDelay = 0 }: { text: string; baseDelay?: number }) {
+  return (
+    <>
+      {text.split("").map((char, i) => (
+        <motion.span
+          key={i}
+          initial={{ opacity: 0, y: 36 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: baseDelay + i * 0.055,
+            duration: 0.55,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget as HTMLSpanElement;
+            el.style.color = "#a78bfa";
+            el.style.transform = "translateY(-8px)";
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget as HTMLSpanElement;
+            el.style.color = "#fff";
+            el.style.transform = "translateY(0)";
+          }}
+          style={{
+            display: "inline-block",
+            cursor: "default",
+            transition: "color 0.2s ease, transform 0.28s cubic-bezier(0.34,1.56,0.64,1)",
+            color: "#fff",
+          }}
+        >
+          {char}
+        </motion.span>
+      ))}
+    </>
   );
 }
 
@@ -91,7 +172,7 @@ function TiltAvatar() {
           style={{
             position: "relative", width: "100%", height: "100%",
             objectFit: "contain", userSelect: "none",
-            filter: "drop-shadow(0 28px 56px rgba(139,92,246,0.32))",
+            filter: "drop-shadow(0 32px 64px rgba(139,92,246,0.38))",
           }}
           draggable={false}
         />
@@ -160,7 +241,6 @@ export default function HeroAboutTransition() {
     if (!outer || !heroPanel || !aboutPanel) return;
 
     const ctx = gsap.context(() => {
-      // About panel starts BELOW the viewport (vertical slide-up)
       gsap.set(aboutPanel, { yPercent: 100 });
 
       const tl = gsap.timeline({
@@ -172,7 +252,6 @@ export default function HeroAboutTransition() {
         },
       });
 
-      // 1 unit idle → 2 units: about slides up, hero recedes slightly
       tl.to({}, { duration: 1 })
         .to(aboutPanel, { yPercent: 0, ease: "none", duration: 2 }, 1)
         .to(heroPanel,  { scale: 0.93, ease: "none", duration: 2 }, 1);
@@ -181,45 +260,28 @@ export default function HeroAboutTransition() {
     return () => ctx.revert();
   }, []);
 
-  /* Tech logo set — shared across desktop about panel */
+  /* Tech logos — desktop about panel */
   const logos = (
     <>
-      {/* TOP LEFT — React (spin + float) */}
       <TechLogo
         src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
-        alt="React"
-        size={80}
-        glowColor="rgba(97,218,251,0.6)"
-        delay={0}
-        spin
-        style={{ top: "8%", left: "4%" }}
+        alt="React" size={80} glowColor="rgba(97,218,251,0.6)"
+        delay={0} spin style={{ top: "8%", left: "4%" }}
       />
-      {/* TOP RIGHT — Node.js */}
       <TechLogo
         src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
-        alt="Node.js"
-        size={80}
-        glowColor="rgba(51,153,51,0.6)"
-        delay={0.8}
-        style={{ top: "6%", right: "5%" }}
+        alt="Node.js" size={80} glowColor="rgba(51,153,51,0.6)"
+        delay={0.8} style={{ top: "6%", right: "5%" }}
       />
-      {/* MIDDLE RIGHT — CSS3 */}
       <TechLogo
         src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
-        alt="CSS3"
-        size={75}
-        glowColor="rgba(21,114,182,0.6)"
-        delay={1.4}
-        style={{ top: "42%", right: "3%" }}
+        alt="CSS3" size={75} glowColor="rgba(21,114,182,0.6)"
+        delay={1.4} style={{ top: "42%", right: "3%" }}
       />
-      {/* BOTTOM LEFT — HTML5 */}
       <TechLogo
         src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
-        alt="HTML5"
-        size={75}
-        glowColor="rgba(227,79,38,0.6)"
-        delay={2}
-        style={{ bottom: "25%", left: "4%" }}
+        alt="HTML5" size={75} glowColor="rgba(227,79,38,0.6)"
+        delay={2} style={{ bottom: "25%", left: "4%" }}
       />
     </>
   );
@@ -228,8 +290,6 @@ export default function HeroAboutTransition() {
     <>
       {/* ═══════════════════════════════════════════════════════
           DESKTOP — 300vh outer / sticky 100vh inner
-          About panel slides UP over the hero (vertical scrub)
-          Hidden on ≤ 768px via .desktop-split-view
       ═══════════════════════════════════════════════════════ */}
       <div
         id="hero"
@@ -243,114 +303,239 @@ export default function HeroAboutTransition() {
           backgroundColor: "#000",
         }}>
 
-          {/* ── Hero panel (full screen, sits behind) ── */}
+          {/* ── Hero panel ── */}
           <div ref={heroPanelRef} style={{
             position: "absolute", inset: 0,
             backgroundColor: "#000", overflow: "hidden",
             display: "flex", flexDirection: "column",
-            alignItems: "center", paddingTop: "8vh",
+            alignItems: "center",
+            justifyContent: "center",
+            paddingTop: "56px",
+            paddingBottom: "20px",
             zIndex: 10,
           }}>
+
+            {/* H1 — "HI, I'M" fades in, "AKSHAY" letter by letter */}
             <h1 style={{
               fontFamily: '"Anton", sans-serif',
-              fontSize: "clamp(3rem, 8vw, 10rem)",
+              fontSize: "clamp(3rem, 7.5vw, 9rem)",
               color: "#fff",
               textAlign: "center",
               lineHeight: 0.9,
               letterSpacing: "-0.02em",
-              zIndex: 1, position: "relative",
-              userSelect: "none", pointerEvents: "none",
-              margin: 0, width: "100%",
+              zIndex: 1,
+              position: "relative",
+              userSelect: "none",
+              margin: 0,
             }}>
-              HI, I&apos;M AKSHAY
+              <motion.span
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                style={{ display: "inline" }}
+              >
+                HI, I&apos;M{" "}
+              </motion.span>
+              <AnimatedName text="AKSHAY" baseDelay={0.38} />
             </h1>
 
+            {/* Avatar */}
             <div style={{
-              width: "clamp(220px, 28vw, 420px)",
-              height: "clamp(260px, 40vh, 500px)",
-              marginTop: "-60px",
-              flexShrink: 0, zIndex: 10, position: "relative",
+              width: "clamp(280px, 34vw, 500px)",
+              height: "clamp(340px, 50vh, 580px)",
+              marginTop: "clamp(-40px, -5vh, -60px)",
+              flexShrink: 0,
+              zIndex: 10,
+              position: "relative",
             }}>
               <TiltAvatar />
             </div>
 
-            <p style={{
-              maxWidth: "min(520px, 84vw)",
-              textAlign: "center", color: "#fff",
-              fontFamily: "Inter, sans-serif",
-              fontSize: "clamp(0.7rem, 1vw, 0.88rem)",
-              lineHeight: 1.85,
-              marginTop: "clamp(8px, 1.2vh, 18px)",
-              padding: "0 16px",
-              zIndex: 5, position: "relative",
-            }}>
+            {/* Bio */}
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9, duration: 0.6, ease: "easeOut" }}
+              style={{
+                maxWidth: "min(520px, 82vw)",
+                textAlign: "center",
+                color: "rgba(255,255,255,0.5)",
+                fontFamily: "Inter, sans-serif",
+                fontSize: "clamp(0.7rem, 0.88vw, 0.88rem)",
+                lineHeight: 1.85,
+                marginTop: "clamp(8px, 1.2vh, 16px)",
+                padding: "0 16px",
+                zIndex: 5,
+                position: "relative",
+              }}
+            >
               {HERO_BIO}
-            </p>
+            </motion.p>
 
-            <div style={{ marginTop: 20 }}>
+            {/* CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.1, duration: 0.5, ease: "easeOut" }}
+              style={{ marginTop: "clamp(14px, 2vh, 22px)" }}
+            >
               <ContactBtn />
-            </div>
+            </motion.div>
+
+            {/* Scroll indicator */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.8, duration: 0.8 }}
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                bottom: 28,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <span style={{
+                fontSize: 9,
+                letterSpacing: "0.22em",
+                color: "rgba(255,255,255,0.18)",
+                fontFamily: "Inter, sans-serif",
+                textTransform: "uppercase",
+              }}>
+                SCROLL
+              </span>
+              <motion.div
+                animate={{ y: [0, 10, 0] }}
+                transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
+                style={{
+                  width: 1,
+                  height: 30,
+                  background: "linear-gradient(to bottom, rgba(139,92,246,0.6), transparent)",
+                }}
+              />
+            </motion.div>
           </div>
 
-          {/* ── About panel (full screen, slides up from below) ── */}
+          {/* ── About panel (slides up from below on scroll) ── */}
           <div ref={aboutPanelRef} style={{
             position: "absolute", inset: 0,
-            backgroundColor: "#000", overflow: "hidden",
+            backgroundColor: "#060608", overflow: "hidden",
             zIndex: 15,
           }}>
-            {/* Soft top-edge gradient so the slide-up feels seamless */}
+
+            {/* ── Liquid / Apple water blobs ── */}
+            {/* Blob 1 — large, top-right, violet */}
             <div aria-hidden="true" style={{
-              position: "absolute", top: 0, left: 0, right: 0,
-              height: 80, pointerEvents: "none", zIndex: 2,
-              background: "linear-gradient(to bottom, #000 0%, transparent 100%)",
+              position: "absolute",
+              width: "clamp(400px, 55vw, 800px)",
+              height: "clamp(400px, 55vw, 800px)",
+              top: "-20%", right: "-12%",
+              background: "radial-gradient(ellipse at center, rgba(139,92,246,0.38) 0%, rgba(99,57,220,0.18) 45%, transparent 75%)",
+              filter: "blur(72px)",
+              animation: "liquid-blob-1 11s ease-in-out infinite",
+              pointerEvents: "none",
             }} />
 
-            {/* Ambient purple glow */}
+            {/* Blob 2 — large, bottom-left, pink-violet */}
             <div aria-hidden="true" style={{
-              position: "absolute", inset: 0, pointerEvents: "none",
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}>
-              <div style={{
-                width: "50%", height: "50%", borderRadius: "50%",
-                background: "rgba(139,92,246,0.07)", filter: "blur(100px)",
-              }} />
-            </div>
+              position: "absolute",
+              width: "clamp(350px, 48vw, 700px)",
+              height: "clamp(350px, 48vw, 700px)",
+              bottom: "-18%", left: "-10%",
+              background: "radial-gradient(ellipse at center, rgba(236,72,153,0.22) 0%, rgba(139,92,246,0.14) 50%, transparent 75%)",
+              filter: "blur(80px)",
+              animation: "liquid-blob-2 14s ease-in-out infinite",
+              animationDelay: "2s",
+              pointerEvents: "none",
+            }} />
 
-            {/* Tech logo decorators */}
+            {/* Blob 3 — small, center accent */}
+            <div aria-hidden="true" style={{
+              position: "absolute",
+              width: "clamp(180px, 22vw, 340px)",
+              height: "clamp(180px, 22vw, 340px)",
+              top: "38%", left: "42%",
+              background: "radial-gradient(ellipse at center, rgba(139,92,246,0.18) 0%, transparent 70%)",
+              filter: "blur(50px)",
+              animation: "liquid-blob-3 9s ease-in-out infinite",
+              animationDelay: "1s",
+              pointerEvents: "none",
+            }} />
+
+            {/* Top-edge feather so the slide-up feels seamless */}
+            <div aria-hidden="true" style={{
+              position: "absolute", top: 0, left: 0, right: 0,
+              height: 100, pointerEvents: "none", zIndex: 2,
+              background: "linear-gradient(to bottom, #060608 0%, transparent 100%)",
+            }} />
+
+            {/* Floating tech logos */}
             {logos}
 
-            {/* Centered content */}
+            {/* ── Content ── */}
             <div style={{
               position: "relative", zIndex: 10,
               display: "flex", flexDirection: "column",
               alignItems: "center", justifyContent: "center",
               height: "100%",
-              padding: "0 clamp(24px, 8vw, 120px)",
-              textAlign: "center",
+              padding: "clamp(56px, 8vh, 80px) clamp(40px, 7vw, 100px) clamp(36px, 5vh, 56px)",
             }}>
+
+              {/* Heading */}
               <h2 style={{
                 fontFamily: '"Anton", sans-serif',
-                fontSize: "clamp(3.5rem, 8vw, 6rem)",
+                fontSize: "clamp(2.8rem, 6.5vw, 5.5rem)",
                 color: "#fff",
                 lineHeight: 0.9,
                 letterSpacing: "-0.02em",
-                marginBottom: 32,
+                marginBottom: "clamp(28px, 4vh, 44px)",
+                textAlign: "center",
               }}>
                 ABOUT ME
               </h2>
 
-              <p style={{
-                maxWidth: 480,
-                color: "rgba(255,255,255,0.85)",
-                fontFamily: "Inter, sans-serif",
-                fontSize: 15,
-                lineHeight: 1.9,
-                marginBottom: 44,
+              {/* 2-column row: para 1 + para 2 */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "clamp(20px, 4vw, 48px)",
+                width: "100%",
+                maxWidth: 1040,
+                marginBottom: "clamp(16px, 2.5vh, 28px)",
               }}>
-                {ABOUT_BIO}
+                {[ABOUT_BIO[0], ABOUT_BIO[1]].map((para, i) => (
+                  <p key={i} style={{
+                    color: "rgba(255,255,255,0.72)",
+                    fontFamily: "Inter, sans-serif",
+                    fontSize: "clamp(12px, 0.88vw, 14px)",
+                    lineHeight: 1.85,
+                    margin: 0,
+                    textAlign: "left",
+                  }}>
+                    {para}
+                  </p>
+                ))}
+              </div>
+
+              {/* Full-width third paragraph */}
+              <p style={{
+                width: "100%",
+                maxWidth: 1040,
+                color: "rgba(255,255,255,0.55)",
+                fontFamily: "Inter, sans-serif",
+                fontSize: "clamp(11px, 0.82vw, 13px)",
+                lineHeight: 1.85,
+                textAlign: "left",
+                borderTop: "1px solid rgba(255,255,255,0.07)",
+                paddingTop: "clamp(14px, 2vh, 22px)",
+                marginBottom: "clamp(24px, 4vh, 40px)",
+              }}>
+                {ABOUT_BIO[2]}
               </p>
 
-              <ContactBtn />
+              <JourneyBtn />
             </div>
           </div>
 
@@ -359,79 +544,120 @@ export default function HeroAboutTransition() {
 
       {/* ═══════════════════════════════════════════════════════
           MOBILE — normal stacked sections (≤ 768px)
-          Shown via .mobile-stack-view, no GSAP
       ═══════════════════════════════════════════════════════ */}
       <div className="mobile-stack-view">
 
         {/* ── Mobile Hero ── */}
         <section style={{
-          height: "100svh",           /* exact viewport — no empty gap */
+          minHeight: "100svh",
           backgroundColor: "#000",
-          display: "flex", flexDirection: "column",
-          alignItems: "center", justifyContent: "center",
-          padding: "52px 16px 20px", /* 52px top = navbar clearance */
-          overflow: "hidden", position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "72px 20px 40px",
+          overflow: "hidden",
+          position: "relative",
           gap: 0,
         }}>
+          {/* Ambient glow */}
+          <div aria-hidden="true" style={{
+            position: "absolute",
+            top: "20%", left: "50%",
+            transform: "translateX(-50%)",
+            width: "80vw", height: "50vw",
+            borderRadius: "50%",
+            background: "radial-gradient(ellipse, rgba(139,92,246,0.12) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }} />
+
           <h1 style={{
             fontFamily: '"Anton", sans-serif',
-            fontSize: "clamp(2rem, 10.5vw, 3rem)",
-            color: "#fff", textAlign: "center",
-            lineHeight: 0.9, letterSpacing: "-0.02em",
-            userSelect: "none", pointerEvents: "none",
-            margin: 0, padding: "0 8px", flexShrink: 0,
+            fontSize: "clamp(1.7rem, 8.5vw, 3.5rem)",
+            color: "#fff",
+            textAlign: "center",
+            lineHeight: 1,
+            letterSpacing: "-0.01em",
+            userSelect: "none",
+            whiteSpace: "nowrap",
+            margin: 0,
+            flexShrink: 0,
+            position: "relative",
+            zIndex: 1,
           }}>
             HI, I&apos;M AKSHAY
           </h1>
 
+          {/* Avatar — much bigger on mobile */}
           <div style={{
-            width: "min(52vw, 210px)",
-            height: "clamp(150px, 28vh, 220px)",
-            marginTop: "-8px", flexShrink: 0,
-            zIndex: 10, position: "relative",
+            width: "min(80vw, 310px)",
+            height: "clamp(270px, 46vh, 370px)",
+            marginTop: "clamp(-24px, -3vh, -14px)",
+            flexShrink: 0,
+            zIndex: 10,
+            position: "relative",
           }}>
             <TiltAvatar />
           </div>
 
           <p style={{
             maxWidth: "88vw",
-            textAlign: "center", color: "rgba(255,255,255,0.9)",
+            textAlign: "center",
+            color: "rgba(255,255,255,0.65)",
             fontFamily: "Inter, sans-serif",
-            fontSize: "clamp(0.65rem, 2.8vw, 0.78rem)",
-            lineHeight: 1.7,
-            marginTop: 6, padding: "0 12px",
+            fontSize: "clamp(0.76rem, 3.4vw, 0.88rem)",
+            lineHeight: 1.78,
+            marginTop: "clamp(8px, 1.5vh, 16px)",
+            padding: "0 8px",
             flexShrink: 0,
+            position: "relative",
+            zIndex: 1,
           }}>
             {HERO_BIO}
           </p>
 
-          <div style={{ marginTop: 14, flexShrink: 0 }}>
+          <div style={{
+            marginTop: "clamp(16px, 2.5vh, 24px)",
+            flexShrink: 0,
+            position: "relative",
+            zIndex: 1,
+          }}>
             <ContactBtn />
           </div>
         </section>
 
         {/* ── Mobile About ── */}
         <section id="about" style={{
-          backgroundColor: "#000",
-          /* auto height — no forced 100svh gap */
-          display: "flex", flexDirection: "column",
-          alignItems: "center", justifyContent: "flex-start",
-          padding: "72px 16px 56px",
+          backgroundColor: "#060608",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          padding: "72px 20px 56px",
           textAlign: "center",
-          position: "relative", overflow: "hidden",
+          position: "relative",
+          overflow: "hidden",
         }}>
-          {/* Ambient glow */}
+          {/* Liquid blobs — mobile scale */}
           <div aria-hidden="true" style={{
-            position: "absolute", inset: 0, pointerEvents: "none",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <div style={{
-              width: "80%", height: "50%", borderRadius: "50%",
-              background: "rgba(139,92,246,0.07)", filter: "blur(80px)",
-            }} />
-          </div>
+            position: "absolute", top: "-10%", right: "-20%",
+            width: "70vw", height: "70vw",
+            background: "radial-gradient(ellipse, rgba(139,92,246,0.3) 0%, transparent 70%)",
+            filter: "blur(50px)",
+            animation: "liquid-blob-1 11s ease-in-out infinite",
+            pointerEvents: "none",
+          }} />
+          <div aria-hidden="true" style={{
+            position: "absolute", bottom: "-10%", left: "-20%",
+            width: "60vw", height: "60vw",
+            background: "radial-gradient(ellipse, rgba(236,72,153,0.18) 0%, rgba(139,92,246,0.1) 50%, transparent 70%)",
+            filter: "blur(50px)",
+            animation: "liquid-blob-2 14s ease-in-out infinite",
+            animationDelay: "2s",
+            pointerEvents: "none",
+          }} />
 
-          {/* Mobile tech logos — fixed pixel positions, no percentage */}
+          {/* Mobile tech logos */}
           <TechLogo
             src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
             alt="React" size={36} glowColor="rgba(97,218,251,0.55)"
@@ -461,26 +687,31 @@ export default function HeroAboutTransition() {
             position: "relative", zIndex: 1,
             fontFamily: '"Anton", sans-serif',
             fontSize: "clamp(2.2rem, 10vw, 3rem)",
-            color: "#fff", lineHeight: 0.9,
-            letterSpacing: "-0.02em", marginBottom: 16,
+            color: "#fff",
+            lineHeight: 0.9,
+            letterSpacing: "-0.02em",
+            marginBottom: 16,
           }}>
             ABOUT ME
           </h2>
 
-          <p style={{
-            position: "relative", zIndex: 1,
-            maxWidth: "84vw",
-            color: "rgba(255,255,255,0.82)",
-            fontFamily: "Inter, sans-serif",
-            fontSize: "clamp(12px, 3vw, 14px)",
-            lineHeight: 1.8,
-            marginBottom: 28,
-          }}>
-            {ABOUT_BIO}
-          </p>
+          <div style={{ position: "relative", zIndex: 1, maxWidth: "84vw", marginBottom: 28 }}>
+            {ABOUT_BIO.map((para, i) => (
+              <p key={i} style={{
+                color: "rgba(255,255,255,0.78)",
+                fontFamily: "Inter, sans-serif",
+                fontSize: "clamp(12px, 3vw, 14px)",
+                lineHeight: 1.8,
+                marginBottom: i < ABOUT_BIO.length - 1 ? "clamp(10px, 1.6vh, 14px)" : 0,
+                textAlign: "center",
+              }}>
+                {para}
+              </p>
+            ))}
+          </div>
 
           <div style={{ position: "relative", zIndex: 1 }}>
-            <ContactBtn />
+            <JourneyBtn />
           </div>
         </section>
 

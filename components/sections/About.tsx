@@ -3,9 +3,11 @@
 import { motion } from "framer-motion";
 
 const BIO = [
-  "Full Stack Developer with 3+ years of experience at Promax Scientific Developers, building production-grade web applications with React.js, Node.js, and MySQL.",
-  "I love clean architecture, scalable APIs, and products that solve real problems.",
-  "Currently based in Amravati, MH — open to remote and hybrid opportunities.",
+  "I'm a Full Stack Developer with 3+ years of experience building scalable, production-ready web applications using React.js, Node.js, TypeScript, and modern web technologies. I enjoy turning complex ideas into intuitive, high-performance digital products that combine clean architecture with exceptional user experiences.",
+
+  "My passion lies in building end-to-end solutions—from responsive frontend interfaces and secure backend APIs to database design and cloud deployment. I believe great software is built through thoughtful engineering, attention to detail, and a deep understanding of user needs.",
+
+  "I'm continuously exploring AI-powered applications, SaaS architecture, cloud technologies, and modern development workflows to create reliable, scalable, and future-ready products. I'm always excited to collaborate on meaningful projects, solve challenging problems, and build technology that makes a real impact.",
 ];
 
 // ── 3-D blue metallic asterisk (top-left) ─────────────────────────────────
