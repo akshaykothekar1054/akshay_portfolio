@@ -84,11 +84,6 @@ body {
   .mobile-stack-view  { display: block; }
 }
 
-/* ── About tech logo decorators: hide on mobile ─────────── */
-@media (max-width: 768px) {
-  .about-logo-decorator { display: none !important; }
-}
-
 /* ══════════════════════════════════════════════════════════
    NAVBAR — shrink links on small screens so all 4 fit
 ══════════════════════════════════════════════════════════ */

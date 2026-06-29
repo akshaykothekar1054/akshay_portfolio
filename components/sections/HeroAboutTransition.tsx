@@ -108,13 +108,14 @@ type LogoProps = {
   glowColor: string;
   delay: number;
   spin?: boolean;
+  className?: string;
   style: React.CSSProperties;
 };
 
-function TechLogo({ src, alt, size, glowColor, delay, spin = false, style }: LogoProps) {
+function TechLogo({ src, alt, size, glowColor, delay, spin = false, className = "about-logo-decorator", style }: LogoProps) {
   return (
     <motion.div
-      className="about-logo-decorator"
+      className={className}
       aria-hidden="true"
       style={{ position: "absolute", pointerEvents: "none", ...style }}
       animate={spin ? { y: [0, -12, 0], rotate: [0, 360] } : { y: [0, -12, 0] }}
@@ -126,6 +127,7 @@ function TechLogo({ src, alt, size, glowColor, delay, spin = false, style }: Log
             }
           : { duration: 3, repeat: Infinity, ease: "easeInOut", delay }
       }
+      whileTap={{ scale: 1.25 }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -361,32 +363,31 @@ export default function HeroAboutTransition() {
       ═══════════════════════════════════════════════════════ */}
       <div className="mobile-stack-view">
 
-        {/* Mobile Hero */}
+        {/* ── Mobile Hero ── */}
         <section style={{
-          minHeight: "100svh",
+          height: "100svh",           /* exact viewport — no empty gap */
           backgroundColor: "#000",
           display: "flex", flexDirection: "column",
-          alignItems: "center", justifyContent: "flex-start",
-          paddingTop: "52px",   /* clears fixed navbar */
-          paddingBottom: "16px",
+          alignItems: "center", justifyContent: "center",
+          padding: "52px 16px 20px", /* 52px top = navbar clearance */
           overflow: "hidden", position: "relative",
+          gap: 0,
         }}>
           <h1 style={{
             fontFamily: '"Anton", sans-serif',
-            fontSize: "clamp(2.2rem, 11vw, 3.5rem)",
+            fontSize: "clamp(2rem, 10.5vw, 3rem)",
             color: "#fff", textAlign: "center",
             lineHeight: 0.9, letterSpacing: "-0.02em",
-            zIndex: 1, position: "relative",
             userSelect: "none", pointerEvents: "none",
-            margin: 0, padding: "0 10px",
+            margin: 0, padding: "0 8px", flexShrink: 0,
           }}>
             HI, I&apos;M AKSHAY
           </h1>
 
           <div style={{
-            width: "min(56vw, 230px)",
-            height: "clamp(180px, 33vh, 260px)",
-            marginTop: "-10px", flexShrink: 0,
+            width: "min(52vw, 210px)",
+            height: "clamp(150px, 28vh, 220px)",
+            marginTop: "-8px", flexShrink: 0,
             zIndex: 10, position: "relative",
           }}>
             <TiltAvatar />
@@ -394,22 +395,22 @@ export default function HeroAboutTransition() {
 
           <p style={{
             maxWidth: "88vw",
-            textAlign: "center", color: "#fff",
+            textAlign: "center", color: "rgba(255,255,255,0.9)",
             fontFamily: "Inter, sans-serif",
-            fontSize: "clamp(0.68rem, 3vw, 0.8rem)",
-            lineHeight: 1.75,
-            marginTop: 8, padding: "0 14px",
-            zIndex: 5, position: "relative",
+            fontSize: "clamp(0.65rem, 2.8vw, 0.78rem)",
+            lineHeight: 1.7,
+            marginTop: 6, padding: "0 12px",
+            flexShrink: 0,
           }}>
             {HERO_BIO}
           </p>
 
-          <div style={{ marginTop: 16 }}>
+          <div style={{ marginTop: 14, flexShrink: 0 }}>
             <ContactBtn />
           </div>
         </section>
 
-        {/* Mobile About */}
+        {/* ── Mobile About ── */}
         <section id="about" style={{
           backgroundColor: "#000",
           minHeight: "100svh",
@@ -426,29 +427,54 @@ export default function HeroAboutTransition() {
           }}>
             <div style={{
               width: "80%", height: "50%", borderRadius: "50%",
-              background: "rgba(139,92,246,0.06)", filter: "blur(80px)",
+              background: "rgba(139,92,246,0.07)", filter: "blur(80px)",
             }} />
           </div>
+
+          {/* Mobile tech logos — small, interactive, corner-pinned */}
+          <TechLogo
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+            alt="React" size={38} glowColor="rgba(97,218,251,0.55)"
+            delay={0} spin className=""
+            style={{ top: "7%", left: "4%" }}
+          />
+          <TechLogo
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+            alt="Node.js" size={38} glowColor="rgba(51,153,51,0.55)"
+            delay={0.8} className=""
+            style={{ top: "5%", right: "5%" }}
+          />
+          <TechLogo
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
+            alt="CSS3" size={34} glowColor="rgba(21,114,182,0.55)"
+            delay={1.4} className=""
+            style={{ top: "44%", right: "3%" }}
+          />
+          <TechLogo
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+            alt="HTML5" size={34} glowColor="rgba(227,79,38,0.55)"
+            delay={2} className=""
+            style={{ bottom: "22%", left: "4%" }}
+          />
 
           <h2 style={{
             position: "relative", zIndex: 1,
             fontFamily: '"Anton", sans-serif',
-            fontSize: "clamp(2.6rem, 12vw, 3.8rem)",
+            fontSize: "clamp(2.5rem, 11.5vw, 3.6rem)",
             color: "#fff", lineHeight: 0.9,
-            letterSpacing: "-0.02em",
-            marginBottom: 16,
+            letterSpacing: "-0.02em", marginBottom: 14,
           }}>
             ABOUT ME
           </h2>
 
           <p style={{
             position: "relative", zIndex: 1,
-            maxWidth: "88vw",
+            maxWidth: "86vw",
             color: "rgba(255,255,255,0.85)",
             fontFamily: "Inter, sans-serif",
-            fontSize: "clamp(13px, 3.4vw, 15px)",
+            fontSize: "clamp(13px, 3.3vw, 15px)",
             lineHeight: 1.85,
-            marginBottom: 28,
+            marginBottom: 26,
           }}>
             {ABOUT_BIO}
           </p>
