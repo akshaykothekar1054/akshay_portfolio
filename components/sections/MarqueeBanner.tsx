@@ -1,10 +1,7 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
 
-/* Words that make up one cycle of the marquee */
 const WORDS = [
   { text: "FULL STACK DEVELOPER", isBullet: false },
   { text: "•",                    isBullet: true  },
@@ -22,23 +19,28 @@ const WORDS = [
   { text: "•",                    isBullet: true  },
 ];
 
-/* Stroke colour when idle */
 const IDLE_STROKE  = "1.5px rgba(255,255,255,0.22)";
 const HOVER_STROKE = "1.5px #ffffff";
 
+type StyleDecl = CSSStyleDeclaration & { webkitTextStroke: string };
+
 function WordSpan({ text, isBullet }: { text: string; isBullet: boolean }) {
+  const FONT: React.CSSProperties = {
+    fontFamily: '"Anton", sans-serif',
+    fontSize:   "clamp(2.8rem, 6.5vw, 8rem)",
+    lineHeight: 1,
+    flexShrink: 0,
+    userSelect: "none",
+  };
+
   if (isBullet) {
     return (
       <span
         aria-hidden="true"
         style={{
-          color: "rgba(255,255,255,0.2)",
-          margin: "0 clamp(12px, 1.8vw, 28px)",
-          fontFamily: '"Anton", sans-serif',
-          fontSize: "clamp(3rem, 7vw, 8rem)",
-          lineHeight: 1,
-          userSelect: "none",
-          flexShrink: 0,
+          ...FONT,
+          color:  "rgba(255,255,255,0.18)",
+          margin: "0 clamp(10px, 1.6vw, 26px)",
         }}
       >
         {text}
@@ -49,26 +51,21 @@ function WordSpan({ text, isBullet }: { text: string; isBullet: boolean }) {
   return (
     <span
       style={{
-        fontFamily: '"Anton", sans-serif',
-        fontSize: "clamp(3rem, 7vw, 8rem)",
-        lineHeight: 1,
-        letterSpacing: "0.03em",
-        color: "transparent",
-        /* hollow outline — default state */
+        ...FONT,
+        display:          "inline-block",
+        letterSpacing:    "0.03em",
+        color:            "transparent",
         WebkitTextStroke: IDLE_STROKE,
-        transition: "color 0.25s ease, -webkit-text-stroke 0.25s ease",
-        cursor: "default",
-        userSelect: "none",
-        flexShrink: 0,
-        display: "inline-block",
+        transition:       "color 0.25s ease, -webkit-text-stroke 0.25s ease",
+        cursor:           "default",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.color = "#ffffff";
-        (e.currentTarget.style as CSSStyleDeclaration & { webkitTextStroke: string }).webkitTextStroke = HOVER_STROKE;
+        (e.currentTarget.style as StyleDecl).webkitTextStroke = HOVER_STROKE;
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.color = "transparent";
-        (e.currentTarget.style as CSSStyleDeclaration & { webkitTextStroke: string }).webkitTextStroke = IDLE_STROKE;
+        (e.currentTarget.style as StyleDecl).webkitTextStroke = IDLE_STROKE;
       }}
     >
       {text}
@@ -77,66 +74,45 @@ function WordSpan({ text, isBullet }: { text: string; isBullet: boolean }) {
 }
 
 export default function MarqueeBanner() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const trackRef   = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const section = sectionRef.current;
-    const track   = trackRef.current;
-    if (!section || !track) return;
-
-    const ctx = gsap.context(() => {
-      /* As the section scrolls through the viewport, shift track left */
-      gsap.fromTo(
-        track,
-        { x: "4%" },
-        {
-          x: "-28%",
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top bottom",   /* when banner top enters viewport */
-            end: "bottom top",     /* when banner bottom leaves viewport */
-            scrub: 1.2,
-          },
-        }
-      );
-    }, section);
-
-    return () => ctx.revert();
-  }, []);
-
-  /* Render 3 copies so the track always fills even at wide viewports */
-  const copies = [0, 1, 2];
+  const pause  = () => { if (trackRef.current) trackRef.current.style.animationPlayState = "paused";  };
+  const resume = () => { if (trackRef.current) trackRef.current.style.animationPlayState = "running"; };
 
   return (
     <section
-      ref={sectionRef}
       aria-label="Skills marquee"
+      onMouseEnter={pause}
+      onMouseLeave={resume}
       style={{
         backgroundColor: "#0a0a0a",
-        overflow: "hidden",
-        padding: "clamp(28px, 5vh, 56px) 0",
-        /* thin gradient borders top & bottom for visual separation */
-        borderTop:    "1px solid rgba(255,255,255,0.05)",
-        borderBottom: "1px solid rgba(255,255,255,0.05)",
+        overflow:        "hidden",
+        padding:         "clamp(24px, 4.5vh, 52px) 0",
+        borderTop:       "1px solid rgba(255,255,255,0.05)",
+        borderBottom:    "1px solid rgba(255,255,255,0.05)",
       }}
     >
+      {/*
+        Two identical copies of WORDS side by side.
+        CSS animates translateX(0 → -50%) which is exactly one copy width,
+        creating a perfectly seamless infinite loop.
+        Speed: 35s per loop — slow, smooth, automatic.
+      */}
       <div
         ref={trackRef}
         style={{
-          display: "flex",
-          alignItems: "center",
-          whiteSpace: "nowrap",
-          width: "max-content",
-          willChange: "transform",
+          display:     "flex",
+          alignItems:  "center",
+          whiteSpace:  "nowrap",
+          width:       "max-content",
+          willChange:  "transform",
+          animation:   "marquee-left 35s linear infinite",
         }}
       >
-        {copies.map((ci) => (
-          <span key={ci} style={{ display: "inline-flex", alignItems: "center" }}>
-            {WORDS.map((w, wi) => (
-              <WordSpan key={`${ci}-${wi}`} text={w.text} isBullet={w.isBullet} />
+        {[0, 1].map((copy) => (
+          <span key={copy} style={{ display: "inline-flex", alignItems: "center" }}>
+            {WORDS.map((w, i) => (
+              <WordSpan key={`${copy}-${i}`} text={w.text} isBullet={w.isBullet} />
             ))}
           </span>
         ))}
