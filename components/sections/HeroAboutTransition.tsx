@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -189,16 +189,15 @@ type LogoProps = {
   glowColor: string;
   delay: number;
   spin?: boolean;
+  side?: "left" | "right";
   className?: string;
   style: React.CSSProperties;
 };
 
-function TechLogo({ src, alt, size, glowColor, delay, spin = false, className = "about-logo-decorator", style }: LogoProps) {
+/* Inner float/spin loop, shared by both logo variants below */
+function LogoFloat({ src, alt, size, glowColor, delay, spin = false }: Omit<LogoProps, "side" | "className" | "style">) {
   return (
     <motion.div
-      className={className}
-      aria-hidden="true"
-      style={{ position: "absolute", pointerEvents: "none", ...style }}
       animate={spin ? { y: [0, -12, 0], rotate: [0, 360] } : { y: [0, -12, 0] }}
       transition={
         spin
@@ -223,6 +222,44 @@ function TechLogo({ src, alt, size, glowColor, delay, spin = false, className = 
   );
 }
 
+/* Mobile: normal document flow, so Framer's own whileInView is reliable here */
+function TechLogo({ src, alt, size, glowColor, delay, spin = false, side = "left", className = "about-logo-decorator", style }: LogoProps) {
+  const fromX = side === "left" ? -160 : 160;
+  return (
+    <motion.div
+      className={className}
+      aria-hidden="true"
+      style={{ position: "absolute", pointerEvents: "none", ...style }}
+      initial={{ opacity: 0, x: fromX, scale: 0.6 }}
+      whileInView={{ opacity: 1, x: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <LogoFloat src={src} alt={alt} size={size} glowColor={glowColor} delay={delay + 0.9} spin={spin} />
+    </motion.div>
+  );
+}
+
+/*
+  Desktop: the about panel's reveal is driven by a scrubbed GSAP timeline
+  (inline transform set outside React), not by real scrolling of this element
+  into the document flow. Framer's `whileInView` watches an IntersectionObserver
+  that doesn't reliably fire for children of a `position:sticky` + `overflow:hidden`
+  ancestor whose transform is being scrubbed — only the first logo would appear.
+  So on desktop the entrance (opacity/x/scale) is driven directly off the same
+  GSAP timeline as the panel itself; see the `logoRefs` wiring below.
+*/
+const DesktopTechLogo = forwardRef<HTMLDivElement, LogoProps>(function DesktopTechLogo(
+  { src, alt, size, glowColor, delay, spin = false, className = "about-logo-decorator", style },
+  ref
+) {
+  return (
+    <div ref={ref} className={className} aria-hidden="true" style={{ position: "absolute", pointerEvents: "none", ...style }}>
+      <LogoFloat src={src} alt={alt} size={size} glowColor={glowColor} delay={delay} spin={spin} />
+    </div>
+  );
+});
+
 /* ══════════════════════════════════════════════════════════════════
    Main export
 ══════════════════════════════════════════════════════════════════ */
@@ -230,6 +267,11 @@ export default function HeroAboutTransition() {
   const outerRef      = useRef<HTMLDivElement>(null);
   const heroPanelRef  = useRef<HTMLDivElement>(null);
   const aboutPanelRef = useRef<HTMLDivElement>(null);
+
+  const reactLogoRef = useRef<HTMLDivElement>(null);
+  const nodeLogoRef  = useRef<HTMLDivElement>(null);
+  const cssLogoRef   = useRef<HTMLDivElement>(null);
+  const htmlLogoRef  = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (window.innerWidth <= 768) return;
@@ -243,6 +285,11 @@ export default function HeroAboutTransition() {
     const ctx = gsap.context(() => {
       gsap.set(aboutPanel, { yPercent: 100 });
 
+      const leftLogos  = [reactLogoRef.current, htmlLogoRef.current].filter(Boolean) as HTMLDivElement[];
+      const rightLogos = [nodeLogoRef.current, cssLogoRef.current].filter(Boolean) as HTMLDivElement[];
+      gsap.set(leftLogos,  { opacity: 0, x: -160, scale: 0.6 });
+      gsap.set(rightLogos, { opacity: 0, x: 160, scale: 0.6 });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: outer,
@@ -254,34 +301,40 @@ export default function HeroAboutTransition() {
 
       tl.to({}, { duration: 1 })
         .to(aboutPanel, { yPercent: 0, ease: "none", duration: 2 }, 1)
-        .to(heroPanel,  { scale: 0.93, ease: "none", duration: 2 }, 1);
+        .to(heroPanel,  { scale: 0.93, ease: "none", duration: 2 }, 1)
+        .to(leftLogos,  { opacity: 1, x: 0, scale: 1, ease: "power2.out", stagger: 0.15, duration: 1 }, 1.1)
+        .to(rightLogos, { opacity: 1, x: 0, scale: 1, ease: "power2.out", stagger: 0.15, duration: 1 }, 1.1);
     }, outer);
 
     return () => ctx.revert();
   }, []);
 
-  /* Tech logos — desktop about panel */
+  /* Tech logos — desktop about panel (entrance driven by the GSAP timeline above) */
   const logos = (
     <>
-      <TechLogo
+      <DesktopTechLogo
+        ref={reactLogoRef}
         src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
-        alt="React" size={80} glowColor="rgba(97,218,251,0.6)"
-        delay={0} spin style={{ top: "8%", left: "4%" }}
+        alt="React" size={140} glowColor="rgba(97,218,251,0.6)"
+        delay={0} spin style={{ top: "6%", left: "3%" }}
       />
-      <TechLogo
+      <DesktopTechLogo
+        ref={nodeLogoRef}
         src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
-        alt="Node.js" size={80} glowColor="rgba(51,153,51,0.6)"
-        delay={0.8} style={{ top: "6%", right: "5%" }}
+        alt="Node.js" size={140} glowColor="rgba(51,153,51,0.6)"
+        delay={0.9} style={{ top: "4%", right: "4%" }}
       />
-      <TechLogo
+      <DesktopTechLogo
+        ref={cssLogoRef}
         src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
-        alt="CSS3" size={75} glowColor="rgba(21,114,182,0.6)"
-        delay={1.4} style={{ top: "42%", right: "3%" }}
+        alt="CSS3" size={125} glowColor="rgba(21,114,182,0.6)"
+        delay={1.8} style={{ top: "40%", right: "2%" }}
       />
-      <TechLogo
+      <DesktopTechLogo
+        ref={htmlLogoRef}
         src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
-        alt="HTML5" size={75} glowColor="rgba(227,79,38,0.6)"
-        delay={2} style={{ bottom: "25%", left: "4%" }}
+        alt="HTML5" size={125} glowColor="rgba(227,79,38,0.6)"
+        delay={2.7} style={{ bottom: "22%", left: "3%" }}
       />
     </>
   );
@@ -660,27 +713,27 @@ export default function HeroAboutTransition() {
           {/* Mobile tech logos */}
           <TechLogo
             src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
-            alt="React" size={36} glowColor="rgba(97,218,251,0.55)"
-            delay={0} spin className=""
-            style={{ top: 16, left: "4%" }}
+            alt="React" size={58} glowColor="rgba(97,218,251,0.55)"
+            delay={0} spin side="left" className=""
+            style={{ top: 12, left: "3%" }}
           />
           <TechLogo
             src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
-            alt="Node.js" size={36} glowColor="rgba(51,153,51,0.55)"
-            delay={0.8} className=""
-            style={{ top: 16, right: "4%" }}
+            alt="Node.js" size={58} glowColor="rgba(51,153,51,0.55)"
+            delay={0.15} side="right" className=""
+            style={{ top: 12, right: "3%" }}
           />
           <TechLogo
             src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
-            alt="CSS3" size={32} glowColor="rgba(21,114,182,0.55)"
-            delay={1.4} className=""
-            style={{ bottom: 16, right: "4%" }}
+            alt="CSS3" size={50} glowColor="rgba(21,114,182,0.55)"
+            delay={0.3} side="right" className=""
+            style={{ bottom: 12, right: "3%" }}
           />
           <TechLogo
             src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
-            alt="HTML5" size={32} glowColor="rgba(227,79,38,0.55)"
-            delay={2} className=""
-            style={{ bottom: 16, left: "4%" }}
+            alt="HTML5" size={50} glowColor="rgba(227,79,38,0.55)"
+            delay={0.45} side="left" className=""
+            style={{ bottom: 12, left: "3%" }}
           />
 
           <h2 style={{
