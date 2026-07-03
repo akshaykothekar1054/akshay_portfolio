@@ -166,8 +166,11 @@ body {
    NAVBAR — shrink links on small screens so all 4 fit
 ══════════════════════════════════════════════════════════ */
 @media (max-width: 560px) {
-  .nav-list  { padding: 10px 6px !important; }
+  .nav-grid  { padding: 10px 6px !important; }
   .nav-link  { font-size: 8.5px !important; letter-spacing: 0.1em !important; }
+  .nav-logo  { font-size: 12px !important; }
+  .nav-resume-btn  { padding: 7px 10px !important; }
+  .nav-resume-label { display: none; }
 }
 
 @media (max-width: 360px) {
