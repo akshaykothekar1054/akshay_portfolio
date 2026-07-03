@@ -1,6 +1,7 @@
 "use client";
 
-import { Download } from "lucide-react";
+import { useState } from "react";
+import { Download, Menu, X } from "lucide-react";
 
 const LINKS = [
   { label: "ABOUT",    href: "/#about"    },
@@ -11,6 +12,8 @@ const LINKS = [
 ];
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
   return (
     <nav
       aria-label="Main navigation"
@@ -38,6 +41,7 @@ export default function Navbar() {
           href="/#hero"
           className="nav-logo"
           style={{
+            gridColumn: 1,
             justifySelf: "start",
             fontFamily: "Inter, sans-serif",
             fontSize: "14px",
@@ -51,12 +55,12 @@ export default function Navbar() {
           AK<span style={{ color: "#8B5CF6" }}>.</span>
         </a>
 
-        {/* ── Centered links ── */}
+        {/* ── Centered links (desktop only) ── */}
         <ul
-          className="nav-list"
+          className="nav-list nav-desktop-only"
           style={{
+            gridColumn: 2,
             justifySelf: "center",
-            display: "flex",
             alignItems: "center",
             gap: "clamp(16px, 3.5vw, 48px)",
             listStyle: "none",
@@ -91,44 +95,130 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* ── Resume button ── */}
-        <a
-          href="/resume.pdf"
-          download
-          className="nav-resume-btn"
+        {/* ── Right side: resume button (desktop) / hamburger toggle (mobile) ── */}
+        <div style={{ gridColumn: 3, justifySelf: "end", display: "flex", alignItems: "center", gap: "10px" }}>
+          <a
+            href="/resume.pdf"
+            download
+            className="nav-resume-btn nav-desktop-only"
+            style={{
+              alignItems: "center",
+              gap: "6px",
+              padding: "8px 16px",
+              borderRadius: "999px",
+              border: "1px solid rgba(255,255,255,0.18)",
+              color: "#fff",
+              fontFamily: "Inter, sans-serif",
+              fontSize: "11px",
+              fontWeight: 600,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+              transition: "background-color 0.2s ease, border-color 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.backgroundColor = "rgba(255,255,255,0.06)";
+              el.style.borderColor = "rgba(255,255,255,0.4)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.backgroundColor = "transparent";
+              el.style.borderColor = "rgba(255,255,255,0.18)";
+            }}
+          >
+            <Download size={13} />
+            <span>Resume</span>
+          </a>
+
+          <button
+            type="button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="nav-mobile-toggle"
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              width: "36px",
+              height: "36px",
+              borderRadius: "50%",
+              border: "1px solid rgba(255,255,255,0.18)",
+              background: "transparent",
+              color: "#fff",
+              cursor: "pointer",
+            }}
+          >
+            {open ? <X size={16} /> : <Menu size={16} />}
+          </button>
+        </div>
+      </div>
+
+      {/* ── Mobile dropdown panel ── */}
+      {open && (
+        <div
+          className="nav-mobile-panel"
           style={{
-            justifySelf: "end",
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            padding: "8px 16px",
-            borderRadius: "999px",
-            border: "1px solid rgba(255,255,255,0.18)",
-            color: "#fff",
-            fontFamily: "Inter, sans-serif",
-            fontSize: "11px",
-            fontWeight: 600,
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-            textDecoration: "none",
-            whiteSpace: "nowrap",
-            transition: "background-color 0.2s ease, border-color 0.2s ease",
-          }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget as HTMLAnchorElement;
-            el.style.backgroundColor = "rgba(255,255,255,0.06)";
-            el.style.borderColor = "rgba(255,255,255,0.4)";
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget as HTMLAnchorElement;
-            el.style.backgroundColor = "transparent";
-            el.style.borderColor = "rgba(255,255,255,0.18)";
+            borderTop: "1px solid rgba(255,255,255,0.08)",
+            backgroundColor: "rgba(0,0,0,0.92)",
+            backdropFilter: "blur(18px)",
+            WebkitBackdropFilter: "blur(18px)",
+            padding: "8px clamp(16px, 4vw, 48px) 20px",
           }}
         >
-          <Download size={13} />
-          <span className="nav-resume-label">Resume</span>
-        </a>
-      </div>
+          <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column" }}>
+            {LINKS.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  style={{
+                    display: "block",
+                    padding: "14px 0",
+                    borderBottom: "1px solid rgba(255,255,255,0.06)",
+                    color: link.label === "JOURNEY" ? "#8B5CF6" : "rgba(255,255,255,0.7)",
+                    fontSize: "13px",
+                    letterSpacing: "0.18em",
+                    fontFamily: "Inter, sans-serif",
+                    fontWeight: link.label === "JOURNEY" ? 600 : 500,
+                    textDecoration: "none",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href="/resume.pdf"
+            download
+            onClick={() => setOpen(false)}
+            style={{
+              marginTop: "16px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "8px",
+              padding: "12px",
+              borderRadius: "999px",
+              border: "1px solid rgba(255,255,255,0.18)",
+              color: "#fff",
+              fontFamily: "Inter, sans-serif",
+              fontSize: "12px",
+              fontWeight: 600,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+            }}
+          >
+            <Download size={14} />
+            Download Resume
+          </a>
+        </div>
+      )}
     </nav>
   );
 }

@@ -163,16 +163,26 @@ body {
 }
 
 /* ══════════════════════════════════════════════════════════
-   NAVBAR — shrink links on small screens so all 4 fit
+   NAVBAR — full links + resume button on desktop,
+   hamburger toggle + dropdown panel on mobile
 ══════════════════════════════════════════════════════════ */
-@media (max-width: 560px) {
-  .nav-grid  { padding: 10px 6px !important; }
-  .nav-link  { font-size: 8.5px !important; letter-spacing: 0.1em !important; }
-  .nav-logo  { font-size: 12px !important; }
-  .nav-resume-btn  { padding: 7px 10px !important; }
-  .nav-resume-label { display: none; }
+.nav-desktop-only { display: flex; }
+.nav-mobile-toggle { display: none; }
+.nav-mobile-panel {
+  animation: nav-panel-in 0.18s ease;
+}
+
+@keyframes nav-panel-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .nav-desktop-only  { display: none !important; }
+  .nav-mobile-toggle { display: flex !important; }
+  .nav-grid  { padding: 10px clamp(16px, 4vw, 24px) !important; }
 }
 
 @media (max-width: 360px) {
-  .nav-link  { font-size: 7px !important; letter-spacing: 0.06em !important; }
+  .nav-logo { font-size: 12px !important; }
 }
