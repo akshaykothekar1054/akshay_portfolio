@@ -198,8 +198,8 @@ export default function Hero() {
         <div
           className="hero-avatar-wrapper"
           style={{
-            width: "clamp(260px, 36vw, 520px)",
-            height: "clamp(310px, 50vh, 580px)",
+            width: "clamp(320px, 44vw, 640px)",
+            height: "clamp(380px, 62vh, 720px)",
             flexShrink: 0,
             zIndex: 10,
             position: "relative",
