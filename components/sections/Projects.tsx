@@ -2,7 +2,22 @@
 
 import { motion } from "framer-motion";
 
-const PROJECTS = [
+type ProjectCard = {
+  id: string;
+  num: string;
+  client: string;
+  title: string;
+  desc: string;
+  tags: string[];
+  link: string;
+  accent: string;
+  cardBg: string;
+  thumb: string;
+  /** Real product screenshot — shown instead of the gradient `thumb` when set. */
+  cover?: string;
+};
+
+const PROJECTS: ProjectCard[] = [
   {
     id: "digital-content",
     num: "01",
@@ -42,16 +57,56 @@ const PROJECTS = [
   {
     id: "gym-saas",
     num: "04",
-    client: "SaaS Product",
+    client: "Spartan",
     title: "GYM MANAGEMENT SAAS PLATFORM",
     desc: "Multi-tenant SaaS for gyms — member management, attendance and payments with real-time updates.",
     tags: ["React.js", "Node.js", "Supabase", "PostgreSQL"],
-    link: "#contact",
+    link: "/projects/gym-saas",
     accent: "#EC4899",
     cardBg: "#0e0e0e",
     thumb: "linear-gradient(135deg, #3b0764 0%, #9333ea 60%, #a855f7 100%)",
+    cover: "/gym_home.png",
   },
-] as const;
+  {
+    id: "frontend-dashboard",
+    num: "05",
+    client: "UI Template",
+    title: "FRONTEND ADMIN DASHBOARD",
+    desc: "Fully responsive admin dashboard UI kit — login, charts, tables and a full component library reusable in any project.",
+    tags: ["React.js", "Tailwind CSS", "JavaScript"],
+    link: "/projects/frontend-dashboard",
+    accent: "#ef4444",
+    cardBg: "#120a0a",
+    thumb: "linear-gradient(135deg, #3f0d0d 0%, #b91c1c 60%, #ef4444 100%)",
+    cover: "/dashboard2.png",
+  },
+  {
+    id: "gym-website",
+    num: "06",
+    client: "ZYMZOO",
+    title: "GYM MARKETING WEBSITE",
+    desc: "Full gym marketing site — classes, trainers, shop and a 3-tier membership pricing page.",
+    tags: ["React.js", "Tailwind CSS", "JavaScript"],
+    link: "/projects/gym-website",
+    accent: "#eab308",
+    cardBg: "#14110a",
+    thumb: "linear-gradient(135deg, #422006 0%, #a16207 60%, #eab308 100%)",
+    cover: "/gym1web.png",
+  },
+  {
+    id: "grocify",
+    num: "07",
+    client: "Grocify",
+    title: "GROCIFY — ONLINE GROCERY STORE",
+    desc: "E-commerce storefront for organic groceries with a filterable catalog, wishlist, cart and customer reviews.",
+    tags: ["React.js", "Tailwind CSS", "JavaScript"],
+    link: "/projects/grocify",
+    accent: "#f97316",
+    cardBg: "#150e08",
+    thumb: "linear-gradient(135deg, #431407 0%, #c2410c 60%, #f97316 100%)",
+    cover: "/grocify1.png",
+  },
+];
 
 const CARD_RADIUS = "clamp(14px, 1.8vw, 20px)";
 const DEFAULT_BORDER = "1px solid rgba(255,255,255,0.14)";
@@ -128,7 +183,30 @@ export default function Projects() {
               }}
             >
               {/* Thumbnail */}
-              <div style={{ position: "relative", height: "clamp(140px, 18vw, 190px)", flexShrink: 0, background: project.thumb }}>
+              <div
+                style={{
+                  position: "relative",
+                  height: "clamp(140px, 18vw, 190px)",
+                  flexShrink: 0,
+                  background: project.cover ? "#000" : project.thumb,
+                  overflow: "hidden",
+                }}
+              >
+                {project.cover && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={project.cover}
+                    alt={project.title}
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      objectPosition: "top",
+                    }}
+                  />
+                )}
                 <div
                   aria-hidden="true"
                   style={{
@@ -237,7 +315,7 @@ export default function Projects() {
                     e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)";
                   }}
                 >
-                  LIVE PROJECT &rarr;
+                  {project.link.startsWith("/projects/") ? "EXPLORE PROJECT" : "LIVE PROJECT"} &rarr;
                 </a>
               </div>
             </motion.div>
