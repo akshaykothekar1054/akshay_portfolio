@@ -106,7 +106,7 @@ export default function Skills() {
             lineHeight: 0.9,
             letterSpacing: "-0.01em",
           }}>
-            SERVICES
+            SKILLS
           </h2>
         </motion.div>
 

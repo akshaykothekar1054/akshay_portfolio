@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Anton, Inter } from "next/font/google";
 import "./globals.css";
 import { PERSON } from "@/lib/constants";
+import DeveloperCursor from "@/components/DeveloperCursor";
 
 const anton = Anton({
   weight: "400",
@@ -46,6 +47,7 @@ export default function RootLayout({
     <html lang="en" className={`${anton.variable} ${inter.variable}`}>
       <body className="bg-black text-white font-body antialiased overflow-x-hidden">
         {children}
+        <DeveloperCursor />
       </body>
     </html>
   );

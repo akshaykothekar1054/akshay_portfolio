@@ -247,6 +247,7 @@ export default function Contact() {
           {/* Send Button */}
           <button
             type="submit"
+            data-cursor="send"
             style={{
               marginTop: "clamp(8px, 1.5vh, 16px)",
               width: "100%",

@@ -162,14 +162,15 @@ export default function Footer() {
         {/* Social icons */}
         <div style={{ display: "flex", gap: 8 }}>
           {([
-            { href: `mailto:${PERSON.email}`, icon: <Mail size={14} strokeWidth={1.75} />, label: "Email" },
-            { href: PERSON.linkedin, icon: <LinkedInIcon size={14} />, label: "LinkedIn" },
-            { href: PERSON.github, icon: <GitHubIcon size={14} />, label: "GitHub" },
+            { href: `mailto:${PERSON.email}`, icon: <Mail size={14} strokeWidth={1.75} />, label: "Email", cursor: "mail" },
+            { href: PERSON.linkedin, icon: <LinkedInIcon size={14} />, label: "LinkedIn", cursor: "connect" },
+            { href: PERSON.github, icon: <GitHubIcon size={14} />, label: "GitHub", cursor: "git" },
           ] as const).map((s) => (
             <a
               key={s.label}
               href={s.href}
               aria-label={s.label}
+              data-cursor={s.cursor}
               target={s.href.startsWith("http") ? "_blank" : undefined}
               rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
               style={{

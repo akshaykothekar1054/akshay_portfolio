@@ -1,18 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Download, Menu, X } from "lucide-react";
 
 const LINKS = [
-  { label: "ABOUT",    href: "/#about"    },
-  { label: "PROJECTS", href: "/#projects" },
-  { label: "SKILLS",   href: "/#skills"   },
-  { label: "JOURNEY",  href: "/journey"   },
-  { label: "CONTACT",  href: "/#contact"  },
+  { label: "ABOUT",    href: "/#about",    sectionId: "about"    },
+   { label: "SKILLS",   href: "/#skills",   sectionId: "skills"   },
+  { label: "PROJECTS", href: "/#projects", sectionId: "projects" },
+  { label: "JOURNEY",  href: "/journey",   sectionId: null       },
+  { label: "CONTACT",  href: "/#contact",  sectionId: "contact"  },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
+  const pathname = usePathname();
+
+  /* Scroll-spy: highlight the nav link for whichever section is currently in view */
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const sections = LINKS
+      .map((l) => l.sectionId)
+      .filter((id): id is string => id !== null)
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length === 0) return;
+        const topMost = visible.reduce((a, b) =>
+          a.boundingClientRect.top < b.boundingClientRect.top ? a : b
+        );
+        setActiveSectionId(topMost.target.id);
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  const isActive = (link: (typeof LINKS)[number]) =>
+    pathname === "/journey" ? link.sectionId === null : link.sectionId === activeSectionId;
 
   return (
     <nav
@@ -68,38 +102,42 @@ export default function Navbar() {
             padding: 0,
           }}
         >
-          {LINKS.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="nav-link"
-                style={{
-                  color: link.label === "JOURNEY" ? "#8B5CF6" : "rgba(255,255,255,0.5)",
-                  fontSize: "11px",
-                  letterSpacing: "0.22em",
-                  fontFamily: "Inter, sans-serif",
-                  fontWeight: link.label === "JOURNEY" ? 600 : 500,
-                  textDecoration: "none",
-                  textTransform: "uppercase",
-                  transition: "color 0.2s ease",
-                  padding: "4px 0",
-                  whiteSpace: "nowrap",
-                }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#fff")}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color =
-                  link.label === "JOURNEY" ? "#8B5CF6" : "rgba(255,255,255,0.5)")}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
+          {LINKS.map((link) => {
+            const active = isActive(link);
+            return (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className="nav-link"
+                  style={{
+                    color: active ? "#8B5CF6" : "rgba(255,255,255,0.5)",
+                    fontSize: "11px",
+                    letterSpacing: "0.22em",
+                    fontFamily: "Inter, sans-serif",
+                    fontWeight: active ? 600 : 500,
+                    textDecoration: "none",
+                    textTransform: "uppercase",
+                    transition: "color 0.2s ease",
+                    padding: "4px 0",
+                    whiteSpace: "nowrap",
+                  }}
+                  onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#fff")}
+                  onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color =
+                    active ? "#8B5CF6" : "rgba(255,255,255,0.5)")}
+                >
+                  {link.label}
+                </a>
+              </li>
+            );
+          })}
         </ul>
 
         {/* ── Right side: resume button (desktop) / hamburger toggle (mobile) ── */}
         <div style={{ gridColumn: 3, justifySelf: "end", display: "flex", alignItems: "center", gap: "10px" }}>
           <a
-            href="/resume.pdf"
+            href="/Akshay-Kothekar_29-June-2026.pdf"
             download
+            data-cursor="download"
             className="nav-resume-btn nav-desktop-only"
             style={{
               alignItems: "center",
@@ -168,33 +206,37 @@ export default function Navbar() {
           }}
         >
           <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column" }}>
-            {LINKS.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  style={{
-                    display: "block",
-                    padding: "14px 0",
-                    borderBottom: "1px solid rgba(255,255,255,0.06)",
-                    color: link.label === "JOURNEY" ? "#8B5CF6" : "rgba(255,255,255,0.7)",
-                    fontSize: "13px",
-                    letterSpacing: "0.18em",
-                    fontFamily: "Inter, sans-serif",
-                    fontWeight: link.label === "JOURNEY" ? 600 : 500,
-                    textDecoration: "none",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
+            {LINKS.map((link) => {
+              const active = isActive(link);
+              return (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    style={{
+                      display: "block",
+                      padding: "14px 0",
+                      borderBottom: "1px solid rgba(255,255,255,0.06)",
+                      color: active ? "#8B5CF6" : "rgba(255,255,255,0.7)",
+                      fontSize: "13px",
+                      letterSpacing: "0.18em",
+                      fontFamily: "Inter, sans-serif",
+                      fontWeight: active ? 600 : 500,
+                      textDecoration: "none",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
 
           <a
-            href="/resume.pdf"
+            href="/Akshay-Kothekar_29-June-2026.pdf"
             download
+            data-cursor="download"
             onClick={() => setOpen(false)}
             style={{
               marginTop: "16px",

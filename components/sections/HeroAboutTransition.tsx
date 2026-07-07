@@ -28,6 +28,7 @@ function ContactBtn() {
   return (
     <a
       href="/#contact"
+      data-cursor="send"
       style={{
         display: "inline-block",
         padding: "13px 32px",
@@ -57,6 +58,7 @@ function JourneyBtn() {
   return (
     <a
       href="/journey"
+      data-cursor="click"
       style={{
         display: "inline-flex",
         alignItems: "center",
@@ -472,7 +474,7 @@ export default function HeroAboutTransition() {
           </div>
 
           {/* ── About panel (slides up from below on scroll) ── */}
-          <div ref={aboutPanelRef} style={{
+          <div id="about" ref={aboutPanelRef} style={{
             position: "absolute", inset: 0,
             backgroundColor: "#060608", overflow: "hidden",
             zIndex: 15,

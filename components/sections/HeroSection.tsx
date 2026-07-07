@@ -87,7 +87,7 @@ export default function HeroSection() {
               Get In Touch
             </a>
             <a
-              href="/resume.pdf"
+              href="/Akshay-Kothekar_29-June-2026.pdf"
               className="flex items-center gap-2 text-white/40 hover:text-white text-sm transition-colors"
               download
             >

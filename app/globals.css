@@ -10,6 +10,27 @@
   --accent-pink: #EC4899;
   --text-primary: #ffffff;
   --text-secondary: #a1a1aa;
+  --cursor-accent: var(--accent-purple);
+}
+
+/* ── Developer cursor ──────────────────────────────────────────
+   The native cursor is hidden only once JS confirms a fine-pointer
+   desktop device with no reduced-motion preference (see
+   hooks/useDeveloperCursor.ts). If that class is never added —
+   JS disabled, touch device, small screen — nothing here applies
+   and the native cursor is left untouched. */
+html.developer-cursor-active,
+html.developer-cursor-active *,
+html.developer-cursor-active *::before,
+html.developer-cursor-active *::after,
+html.developer-cursor-active a,
+html.developer-cursor-active button,
+html.developer-cursor-active input,
+html.developer-cursor-active textarea,
+html.developer-cursor-active select,
+html.developer-cursor-active label,
+html.developer-cursor-active [role="button"] {
+  cursor: none !important;
 }
 
 /* ── Tailwind v4 theme bridge ──────────────────────────────── */
