@@ -445,7 +445,7 @@ function SectionHeader({ num, label }: { num: string; label: string }) {
 
 /* ── Stats bar ──────────────────────────────────────────────────── */
 const STATS = [
-  { value: "3+", label: "Years Experience" },
+  { value: "4+", label: "Years Experience" },
   { value: "2", label: "Companies" },
   { value: "7.5", label: "CGPA" },
   { value: "∞", label: "Curiosity" },

@@ -6,7 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const BIO =
-  "I'm Akshay Kothekar, a Full Stack Software Engineer with over 3 years of experience " +
+  "I'm Akshay Kothekar, a Full Stack Software Engineer with over 4+ years of experience " +
   "building production-ready web applications and digital products. I enjoy turning complex " +
   "ideas into intuitive, reliable, and scalable solutions that solve real-world problems. " +
   "My focus is on creating products that not only work seamlessly but also deliver " +

@@ -9,7 +9,7 @@ export const PERSON = {
   github: "https://github.com/akshaykothekar",
   location: "Amravati, Maharashtra, India",
   summary:
-    "Full Stack Developer with 3+ years of experience building scalable, production-grade web applications. Proficient in JavaScript, PHP, React.js, and Node.js with a strong focus on multi-tenant SaaS architecture, REST APIs, and performance optimization. Passionate about clean UI, developer tooling, and shipping products that solve real problems.",
+    "Full Stack Developer with 4+ years of experience building scalable, production-grade web applications. Proficient in JavaScript, PHP, React.js, and Node.js with a strong focus on multi-tenant SaaS architecture, REST APIs, and performance optimization. Passionate about clean UI, developer tooling, and shipping products that solve real problems.",
 } as const;
 
 // ── Skills ───────────────────────────────────────────────────────────────────

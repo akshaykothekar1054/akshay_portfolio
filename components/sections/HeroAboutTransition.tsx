@@ -7,12 +7,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 /* ── Copy ─────────────────────────────────────────────────────── */
 const HERO_BIO =
-  "I'm Akshay Kothekar, a Full Stack Software Engineer with over 3 years of experience " +
+  "I'm Akshay Kothekar, a Full Stack Software Engineer with over 4 years of experience " +
   "building production-ready web applications and digital products. I enjoy turning complex " +
   "ideas into intuitive, reliable, and scalable solutions that solve real-world problems.";
 
 const ABOUT_BIO = [
-  "I'm a Full Stack Developer with 3+ years of experience building scalable, production-ready web applications using React.js, Node.js, TypeScript, and modern web technologies. I enjoy turning complex ideas into intuitive, high-performance digital products that combine clean architecture with exceptional user experiences.",
+  "I'm a Full Stack Developer with 4+ years of experience building scalable, production-ready web applications using React.js, Node.js, TypeScript, and modern web technologies. I enjoy turning complex ideas into intuitive, high-performance digital products that combine clean architecture with exceptional user experiences.",
 
   "My passion lies in building end-to-end solutions—from responsive frontend interfaces and secure backend APIs to database design and cloud deployment. I believe great software is built through thoughtful engineering, attention to detail, and a deep understanding of user needs.",
 

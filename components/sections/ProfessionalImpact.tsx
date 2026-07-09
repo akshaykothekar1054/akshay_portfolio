@@ -12,13 +12,13 @@ type Stat = {
 
 const STATS: Stat[] = [
   { label: "Production Applications", value: "5+", numeric: { to: 5, suffix: "+" } },
+  { label: "Websites", value: "25+", numeric: { to: 25, suffix: "+" } },
   { label: "Features Delivered", value: "20+", numeric: { to: 20, suffix: "+" } },
   { label: "REST APIs Developed", value: "200+", numeric: { to: 200, suffix: "+" } },
   { label: "UI Components Built", value: "100+", numeric: { to: 100, suffix: "+" } },
   { label: "Years of Professional Experience", value: "4", numeric: { to: 4 } },
   { label: "Development Methodology", value: "Agile" },
   { label: "Version Control & Deployment", value: "Git & CI/CD" },
-  { label: "Schema & Query Optimization", value: "Database Design" },
 ];
 
 const ease = "easeOut" as const;
@@ -252,28 +252,30 @@ export default function ProfessionalImpact() {
       <style>{`
         .impact-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1px;
+          grid-template-columns: repeat(2, 1fr);
           margin: 0;
-          background-color: rgba(0,0,0,0.07);
           border: 1px solid rgba(0,0,0,0.07);
           border-radius: clamp(16px, 1.6vw, 22px);
           overflow: hidden;
         }
         .impact-cell {
           background-color: #fff;
+          border-top: 1px solid rgba(0,0,0,0.07);
+          border-left: 1px solid rgba(0,0,0,0.07);
         }
+        .impact-cell:nth-child(-n+2) { border-top: none; }
+        .impact-cell:nth-child(2n+1) { border-left: none; }
         .impact-cell:hover .impact-bar {
           transform: scaleX(1);
         }
         .impact-cell:hover .impact-label {
           color: #3f3f46;
         }
-        @media (max-width: 860px) {
-          .impact-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 560px) {
-          .impact-grid { grid-template-columns: 1fr; }
+        @media (min-width: 860px) {
+          .impact-grid { grid-template-columns: repeat(4, 1fr); }
+          .impact-cell:nth-child(-n+4) { border-top: none; }
+          .impact-cell:nth-child(4n+3) { border-left: 1px solid rgba(0,0,0,0.07); }
+          .impact-cell:nth-child(4n+1) { border-left: none; }
         }
       `}</style>
     </section>
