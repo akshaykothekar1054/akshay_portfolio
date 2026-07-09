@@ -7,7 +7,7 @@ import { useRef, useState } from "react";
 const EDUCATION = [
   {
     period: "2019 – 2023",
-    degree: "B.E. Computer Science",
+    degree: "B.E. Information Technology",
     institution: "Sipna College of Engineering & Technology",
     location: "Amravati, MH",
     cgpa: "7.5",
@@ -17,23 +17,42 @@ const EDUCATION = [
 
 const EXPERIENCE = [
   {
-    period: "Dec 2022 – May 2023",
+    period: "Mar 2022 – Jun 2022",
     role: "Web Developer Intern",
-    company: "Ctronics Infotech Pvt. Ltd.",
-    location: "Amravati",
+    company: "Nimbja Security Solutions Pvt. Ltd.",
+    location: "Pune",
     current: false,
-    tags: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
+    tags: ["PHP", "MySQL", "HTML", "CSS", "React", "JavaScript"],
     highlights: [
-      "Developed dynamic web applications using HTML, CSS, JavaScript, and PHP.",
-      "Built backend functionalities with PHP and MySQL for data-driven features; implemented responsive, cross-browser compatible UI designs.",
+      "Completed a full-stack development internship focused on PHP, MySQL, HTML, CSS, React, JavaScript, and responsive web development.",
+      "Assisted in developing and maintaining web application modules under the guidance of senior developers.",
+      "Built reusable UI components, implemented frontend pages, and gained practical experience with backend development.",
+      "Participated in debugging, testing, database operations, and feature implementation while learning industry-standard practices.",
+      "Successfully transitioned to a full-time Web Developer role based on internship performance.",
     ],
   },
   {
-    period: "Aug 2023 – Present",
-    role: "Software Engineer",
+    period: "Jul 2022 – Jul 2023",
+    role: "Web Developer",
+    company: "Nimbja Security Solutions Pvt. Ltd.",
+    location: "Pune",
+    current: false,
+    tags: ["HTML", "CSS", "JavaScript", "Bootstrap", "PHP", "MySQL", "REST APIs"],
+    highlights: [
+      "Joined as a full-time Web Developer after completing the internship, taking ownership of feature development and client deliverables.",
+      "Worked on the Book My Parcel logistics platform, developing responsive frontend interfaces using HTML, CSS, JavaScript, and Bootstrap.",
+      "Integrated REST APIs with the frontend to display real-time shipment, booking, and customer data.",
+      "Developed backend modules using PHP and MySQL for business workflows and data management.",
+      "Fixed production issues, enhanced existing features, and collaborated with senior developers to deliver stable releases.",
+      "Ensured responsive, cross-browser compatible applications while maintaining code quality and performance.",
+    ],
+  },
+  {
+    period: "Aug 2023 – May 2026",
+    role: "Junior Software Engineer",
     company: "Promax Scientific Developers",
     location: "Nagpur",
-    current: true,
+    current: false,
     tags: ["React.js", "Node.js", "PHP", "MySQL", "REST APIs", "Agile"],
     highlights: [
       "Developed and maintained scalable full stack applications using Node.js, PHP, MySQL, and JavaScript across multiple production modules.",
@@ -521,7 +540,7 @@ export default function Journey() {
             <SectionHeader num="02" label="Experience" />
             <div style={{ position: "relative" }}>
               <TimelineLine />
-              {EXPERIENCE.map((item, i) => <ExpCard key={item.company} item={item} index={i} />)}
+              {EXPERIENCE.map((item, i) => <ExpCard key={`${item.company}-${item.period}`} item={item} index={i} />)}
 
               {/* End cap */}
               <motion.div

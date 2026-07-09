@@ -135,7 +135,7 @@ export default function Navbar() {
         {/* ── Right side: resume button (desktop) / hamburger toggle (mobile) ── */}
         <div style={{ gridColumn: 3, justifySelf: "end", display: "flex", alignItems: "center", gap: "10px" }}>
           <a
-            href="/Akshay-Kothekar_29-June-2026.pdf"
+            href="/Akshay_Kothekar_Resume.pdf"
             download
             data-cursor="download"
             className="nav-resume-btn nav-desktop-only"
@@ -234,7 +234,7 @@ export default function Navbar() {
           </ul>
 
           <a
-            href="/Akshay-Kothekar_29-June-2026.pdf"
+            href="/Akshay_Kothekar_Resume.pdf"
             download
             data-cursor="download"
             onClick={() => setOpen(false)}

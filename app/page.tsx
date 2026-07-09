@@ -3,7 +3,7 @@ import HeroAboutTransition from "@/components/sections/HeroAboutTransition";
 import MarqueeBanner from "@/components/sections/MarqueeBanner";
 import Skills from "@/components/sections/Skills";
 import Projects from "@/components/sections/Projects";
-import Testimonials from "@/components/sections/Testimonials";
+import ProfessionalImpact from "@/components/sections/ProfessionalImpact";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/Footer";
 
@@ -16,7 +16,7 @@ export default function Home() {
         <MarqueeBanner />
         <Skills />
         <Projects />
-        <Testimonials />
+        <ProfessionalImpact />
         <Contact />
       </main>
       <Footer />
