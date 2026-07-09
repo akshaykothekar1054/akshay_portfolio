@@ -12,11 +12,11 @@ type Stat = {
 
 const STATS: Stat[] = [
   { label: "Production Applications", value: "5+", numeric: { to: 5, suffix: "+" } },
-  { label: "Websites", value: "25+", numeric: { to: 25, suffix: "+" } },
+  { label: "Dynamic Websites", value: "25+", numeric: { to: 25, suffix: "+" } },
   { label: "Features Delivered", value: "20+", numeric: { to: 20, suffix: "+" } },
   { label: "REST APIs Developed", value: "200+", numeric: { to: 200, suffix: "+" } },
   { label: "UI Components Built", value: "100+", numeric: { to: 100, suffix: "+" } },
-  { label: "Years of Professional Experience", value: "4", numeric: { to: 4 } },
+  { label: "Years of Professional Experience", value: "4+", numeric: { to: 4, suffix: "+" } },
   { label: "Development Methodology", value: "Agile" },
   { label: "Version Control & Deployment", value: "Git & CI/CD" },
 ];

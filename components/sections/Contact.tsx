@@ -1,21 +1,24 @@
 "use client";
 
+import { useActionState, useEffect, useRef } from "react";
 import { PERSON } from "@/lib/constants";
+import { submitContactForm, type ContactFormState } from "@/app/actions/contact";
+
+const initialState: ContactFormState = { status: "idle", message: "" };
 
 // ── Component ──────────────────────────────────────────────────────────────
 export default function Contact() {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const name = (fd.get("name") as string).trim();
-    const email = (fd.get("email") as string).trim();
-    const message = (fd.get("message") as string).trim();
-    const sub = encodeURIComponent(`Portfolio Inquiry from ${name}`);
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
-    );
-    window.location.href = `mailto:${PERSON.email}?subject=${sub}&body=${body}`;
-  };
+  const [state, formAction, pending] = useActionState(
+    submitContactForm,
+    initialState
+  );
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (state.status === "success") {
+      formRef.current?.reset();
+    }
+  }, [state]);
 
   return (
     <section
@@ -94,7 +97,8 @@ export default function Contact() {
 
         {/* ── Right: Contact Form ── */}
         <form
-          onSubmit={handleSubmit}
+          ref={formRef}
+          action={formAction}
           style={{
             display: "flex",
             flexDirection: "column",
@@ -248,6 +252,7 @@ export default function Contact() {
           <button
             type="submit"
             data-cursor="send"
+            disabled={pending}
             style={{
               marginTop: "clamp(8px, 1.5vh, 16px)",
               width: "100%",
@@ -261,10 +266,12 @@ export default function Contact() {
               letterSpacing: "0.1em",
               textTransform: "uppercase",
               color: "#fff",
-              cursor: "pointer",
+              cursor: pending ? "not-allowed" : "pointer",
+              opacity: pending ? 0.6 : 1,
               transition: "all 0.3s ease",
             }}
             onMouseEnter={(e) => {
+              if (pending) return;
               (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#a78bfa";
               (e.currentTarget as HTMLButtonElement).style.borderColor = "#a78bfa";
               (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)";
@@ -277,8 +284,37 @@ export default function Contact() {
               (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
             }}
           >
-            SEND
+            {pending ? "SENDING..." : "SEND"}
           </button>
+
+          {/* Status Alert */}
+          {state.status !== "idle" && (
+            <div
+              role="status"
+              aria-live="polite"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "clamp(10px, 1.2vh, 14px) clamp(14px, 1.5vw, 16px)",
+                borderRadius: "clamp(8px, 1vw, 12px)",
+                fontFamily: "Inter, sans-serif",
+                fontSize: "clamp(0.85rem, 0.95vw, 0.95rem)",
+                fontWeight: 500,
+                backgroundColor:
+                  state.status === "success"
+                    ? "rgba(34, 197, 94, 0.12)"
+                    : "rgba(239, 68, 68, 0.12)",
+                border:
+                  state.status === "success"
+                    ? "1px solid rgba(34, 197, 94, 0.35)"
+                    : "1px solid rgba(239, 68, 68, 0.35)",
+                color: state.status === "success" ? "#4ade80" : "#f87171",
+              }}
+            >
+              {state.status === "success" ? "✓" : "✕"} {state.message}
+            </div>
+          )}
         </form>
       </div>
     </section>
